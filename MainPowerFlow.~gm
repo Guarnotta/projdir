@@ -4,7 +4,7 @@
 * n1 as grouding point
 * CV load at n5.n6
 * --------------------------------------------------------
-
+               jdk
 sets
 i
 ij    (i,i)   lines
@@ -76,8 +76,7 @@ Ibranch(i,j)      'Branch Current'
 V(i)              'Nodal Voltage'
 In(i)             'Nodal Current'
 Incv (i)
-
-
+CS(i,j)           'Current source'
 
 *--------------------------------
 
