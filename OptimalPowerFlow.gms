@@ -88,14 +88,21 @@ dummy            'dummy variable'
 ;
 
 Equations
-AllCurrentSources (i)    'Current input by Sources'
-BranchCurrent     (i,j)  'Current Flowing through ij branch'
+
+*Power Flow Equation
+
+AllCurrentSources (i)     'Current input by Sources'
+BranchCurrent     (i,j)   'Current Flowing through ij branch'
 * Nodal current calculated as the difference between the total input and
 * total output of currents flowing through connected branches
 NodalCurrent       (i)    'Nodal Current equation'
-
 NodalCurrentCV     (i,j)
 ConstantVoltage    (i,j)
+
+*Optimal Power flow Equation
+
+Costfunction       (i,j)  'Based on price function for CC sources'
+
 *-------------------------------
 edummy
 ;
@@ -124,6 +131,10 @@ AllCurrentSources (i)         .. In(i)     =e=   sum[j $is(i,j)   ,CCS(i,j)] + s
 *-------------------------------
 ConstantVoltage   (icv(i,j))  .. V(i)-V(j) =e=  CV(i,j);
 NodalCurrentCV    (icv(i,k))  .. Incv(i)   =e=  sum[j $ij(j,i), Ibranch(j,i)];
+
+* Cost Function
+
+
 
 edummy.. dummy =e= 0;
 *-------------------------------

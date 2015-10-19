@@ -42,3 +42,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.inc
+*.lst
+MainPowerFlow.log
+*.lxi
+OptimalPowerFlow.~gm
