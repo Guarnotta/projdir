@@ -1,0 +1,236 @@
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/19/15 15:56:11 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  * Based on Version 11.0
+   2  * --------------------------------------------------------
+   3  * n-node system:
+   4  * n1 as grouding point
+   5  * --------------------------------------------------------
+   6   
+   7  * Choose the number of equations shown in .lst file
+   8  option limrow=15;
+   9   
+  10  * Define indices represending nodes and connecting point for sources and l
+      oads
+  11  sets
+  12  i
+  13  ij    (i,i)   lines
+  14  is    (i,i)   current sources
+  15  idccs (i,i)   droop controlled sources
+  16  icv   (i,i)   constant voltage
+  17  icp   (i,i)   constant power
+  18  ;
+  19   
+  20  Alias(i,j,k,l);
+  21   
+  22  *-----------------------------------
+  23  parameters
+  24  G(i,j)
+  25  CCS   (i,j)
+  26  DCCS  (i,j)
+  27  CV    (i,j)
+  28  CP    (i,j)
+  29  Vref  (i,j)
+  30  Gdroop(i,j)
+  31  ;
+  32   
+  33  *-- Import from .inc & Excel--------
+  34  sets
+  35  $include  indices.inc
+****                      $282
+  36  ;
+****  $2
+  37   
+  38  table Gmap(i,j,*)
+****                  $361,362
+  39  $include Resistive_Network.inc
+****                               $282
+  40  ;
+****  $463
+  41   
+  42  table CSmap(i,j,*)
+****                   $361,362
+  43  $include CSources.inc
+****                      $282
+  44  ;
+****  $463
+  45   
+  46  table CPmap(i,j,*)
+****                   $361,362
+  47  $include CPload.inc
+****                    $282
+  48  ;
+****  $463
+  49   
+  50  table CVmap(i,j,*)
+****                   $361,362
+  51  $include CVref.inc
+****                   $282
+  52  ;
+****  $463
+  53   
+  54  table DCVmap(i,j,*)
+****                    $361,362
+  55  $include DCVref.inc
+****                    $282
+  56  ;
+****  $463
+  57   
+  58  table DCGmap(i,j,*)
+****                    $361,362
+  59  $include G_Droop.inc
+****                     $282
+  60  ;
+****  $463
+  61   
+  62  G     (i,j) = Gmap   (i,j,'Gline' ) ;
+****         $352,352       $352,352  $116
+  63  CCS   (i,j) = CSmap  (i,j,'L'     ) ;
+****         $352,352       $352,352,116
+  64  DCCS  (i,j) = DCVmap (i,j,'DCVref') ;
+****         $352,352       $352,352   $116
+  65  CV    (i,j) = CVmap  (i,j,'CVref' ) ;
+****         $352,352       $352,352  $116
+  66  CP    (i,j) = CPmap  (i,j,'CPload') ;
+****         $352,352       $352,352   $116
+  67  Vref  (i,j) = DCVmap (i,j,'DCVref') ;
+****         $352,352       $352,352
+  68  Gdroop(i,j) = DCGmap (i,j,'Gdroop') ;
+****         $352,352       $352,352   $116
+  69   
+  70  *--------------------------------
+  71  * Nominal Voltage for CP loads
+  72  scalar Vnom      /47.5/
+  73  *--------------------------------
+  74  * Definition of Variables
+  75  Variables
+  76  * Resistive Network Side
+  77  *--------------------------------
+  78  Ibranch(i,j)      'Branch Current'
+  79  V(i)              'Nodal Voltage'
+  80  In(i)             'Nodal Current'
+  81  Incv (i,j)
+  82  *--------------------------------
+  83   
+  84  *--------------------------------
+  85  * Solver
+  86  dummy            'dummy variable'
+  87  *--------------------------------
+  88  ;
+  89   
+  90  Equations
+  91  AllCurrentSources (i)    'Current input by Sources'
+  92  BranchCurrent     (i,j)  'Current Flowing through ij branch'
+  93   
+  94  * Nodal current calculated as the difference between the total input and
+  95  * total output of currents flowing through connected branches
+  96  NodalCurrent       (i)    'Nodal Current equation'
+  97   
+  98  * Current through Constant Voltage loads and defining the Voltage differen
+      ce
+  99  * between two given nodes
+ 100  NodalCurrentCV     (i,j)
+ 101  ConstantVoltage    (i,j)
+ 102  *-------------------------------
+ 103  edummy
+ 104  ;
+ 105   
+ 106  *-------------------------------
+ 107  * Set Voltage limits and fixed nodal voltages
+ 108  V.lo(i)     =   -200;
+****       $352
+ 109  V.up(i)     =    200;
+****       $352
+ 110  V.fx('n1')  =    0;
+****          $353
+ 111   
+ 112   
+ 113  *dynamic set of indices
+ 114  ij(i,j)    $[G(i,j)]     = yes;
+****     $352,352    $352,352
+ 115  is(i,j)    $[CCS(i,j)]   = yes;
+****     $352,352      $352,352
+ 116  idccs(i,j) $[DCCS(i,j)]  = yes;
+****        $352,352    $352,352
+ 117  icv(i,j)   $[CV(i,j)]    = yes;
+****      $352,352    $352,352
+ 118  icp(i,j)   $[CP(i,j)]    = yes;
+****      $352,352    $352,352
+ 119   
+ 120  * Equations from the resistive part of the network
+ 121  BranchCurrent    (ij(i,j)) .. Ibranch(i,j) =e= (G(i,j)*(V(i)-V(j)));
+ 122  NodalCurrent     (i)       .. In(i) =e= sum[j $ij(i,j)   ,Ibranch(i,j)]-su
+      m[j $ij(j,i), Ibranch(j,i)];
+ 123   
+ 124  * Current Sources and loads (CC, DCCS, CV)
+ 125  AllCurrentSources (i)         .. In(i)     =e=  - sum[j $icv(i,j), Incv(i,
+      j)]  + sum[j $is(i,j)   ,CCS(i,j)] + sum[j $icp(i,j), CP(i,j)/Vnom*[1-1/Vn
+      om*(V(i)-V(j)-Vnom)]]  + sum[j $idccs(i,j),(Vref(i,j) - [V(i)-V(j)])*Gdroo
+      p(i,j)];
+ 126   
+ 127  *-------------------------------
+ 128  ConstantVoltage   (icv(i,j))  .. V(i)-V(j) =e=  CV(i,j);
+ 129  NodalCurrentCV    (icv(i,k))  .. sum[j $icv(i,j), Incv(j,i) ]  + sum[l $ij
+      (l,i), Ibranch(l,i)] =e= 0;
+ 130   
+ 131  edummy.. dummy =e= 0;
+ 132  *-------------------------------
+ 133   
+ 134  Model PowerFlow /all/ ;
+ 135  Solve PowerFlow minimizing dummy using lp;
+****                                           $257
+ 136  display
+ 137                    G,
+ 138                  V.l,
+ 139                   ij,
+ 140                   is,
+ 141                idccs,
+ 142                  icv,
+ 143                 in.l,
+****                    $141
+ 144                  icp,
+ 145            Ibranch.l
+****                    $141
+ 146  ;
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/19/15 15:56:11 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Error Messages
+
+
+  2  Identifier expected
+116  Label is unknown
+141  Symbol declared but no values have been assigned. Check for missing
+        data definition, assignment, data loading or implicit assignment
+        via a solve statement.
+        A wild shot: You may have spurious commas in the explanatory
+        text of a declaration. Check symbol reference list.
+257  Solve statement not checked because of previous errors
+282  Unable to open include file
+352  Set has not been initialized
+353  The domain for this index position is unknown and the element
+        cannot be checked at this point. Missing data statement.
+361  Values for domain 1 are unknown - no checking possible
+362  Values for domain 2 are unknown - no checking possible
+463  The column section in the previous table is missing
+
+**** 86 ERROR(S)   0 WARNING(S)
+
+
+COMPILATION TIME     =        0.312 SECONDS      3 MB  24.5.3 r54322 WEX-WEI
+
+
+USER: Course License, Introduction to Decision Suppo G150929:0359AO-GEN
+      TU Delft, Faculteit Elektrotechniek, Wiskunde en InformatiDC12029
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Power Flow\M
+           ainPowerFlow.gms
+Output     C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\MainPowerFlo
+           w.lst
+
+**** USER ERROR(S) ENCOUNTERED

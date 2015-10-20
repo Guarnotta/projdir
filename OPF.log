@@ -1,0 +1,47 @@
+
+--- Job OPF.gms Start 10/19/15 18:22:09 24.5.3 r54322 WEX-WEI x86 64bit/MS Windows
+GAMS 24.5.3   Copyright (C) 1987-2015 GAMS Development. All rights reserved
+Licensee: Course License, Introduction to Decision Suppo G150929:0359AO-GEN
+          TU Delft, Faculteit Elektrotechniek, Wiskunde en InformatiDC12029
+          License for teaching and research at degree granting institutions
+--- Starting compilation
+--- OPF.gms(18) 2 Mb
+--- .Indices_OPF.inc(18) 3 Mb
+--- OPF.gms(22) 3 Mb
+--- .Resistive_Network_OPF.inc(43) 3 Mb
+--- OPF.gms(26) 3 Mb
+--- .CCsources_OPF.inc(27) 3 Mb
+--- OPF.gms(30) 3 Mb
+--- .CCloads_OPF.inc(27) 3 Mb
+--- OPF.gms(123) 3 Mb
+--- Starting execution: elapsed 0:00:00.009
+--- OPF.gms(204) 4 Mb
+--- Generating LP model OPF
+--- OPF.gms(220) 4 Mb
+---   21 rows  21 columns  41 non-zeroes
+--- Executing CPLEX: elapsed 0:00:00.114
+
+IBM ILOG CPLEX   24.5.3 r54322 Released Oct  1, 2015 WEI x86 64bit/MS Windows 
+Cplex 12.6.2.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Tried aggregator 1 time.
+LP Presolve eliminated 21 rows and 21 columns.
+All rows and columns eliminated.
+Presolve time = 0.02 sec. (0.01 ticks)
+LP status(1): optimal
+Cplex Time: 0.02sec (det. 0.01 ticks)
+
+Optimal solution found.
+Objective :       -1200.000000
+
+--- Restarting execution
+--- OPF.gms(220) 2 Mb
+--- Reading solution for model OPF
+--- Executing after solve: elapsed 0:00:00.289
+--- OPF.gms(223) 3 Mb
+*** Status: Normal completion
+--- Job OPF.gms Stop 10/19/15 18:22:10 elapsed 0:00:00.298
