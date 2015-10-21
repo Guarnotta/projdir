@@ -1,7 +1,5 @@
-*.~gm
 *.inc
-Optimal Power Flow/OPF.log
-*.lxi
-Optimal Power Flow/gmsproj.gpr
-*.txt
-InputFileOPF.log
+InputFile.log
+*.lst
+InputFileOPF.lst
+*.~gm

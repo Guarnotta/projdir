@@ -1,0 +1,36 @@
+B 2 C o m p i l a t i o n
+B 320 Include File Summary
+B 342 Equation Listing    SOLVE OPF Using LP From line 270
+D 343 AllCurrentSources
+D 355 BranchCurrent
+D 366 NodalCurrent
+D 377 Equality
+D 384 Costfunction
+B 391 Column Listing      SOLVE OPF Using LP From line 270
+E 392 Ibr
+E 415 In
+E 434 V
+E 458 CCSources
+E 478 cost
+B 487 Model Statistics    SOLVE OPF Using LP From line 270
+B 503 Solution Report     SOLVE OPF Using LP From line 270
+F 535 AllCurrentSources
+F 546 BranchCurrent
+F 557 NodalCurrent
+F 566 Equality
+F 567 Costfunction
+G 570 Ibr
+G 581 In
+G 592 V
+G 600 CCSources
+G 609 cost
+B 623 E x e c u t i o n
+I 624 R
+I 634 V
+I 639 ij
+I 648 CCs
+I 658 CCl
+I 666 In
+I 671 Ibr
+I 680 CCSources
+I 689 cost

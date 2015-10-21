@@ -1,4 +1,4 @@
-GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/19/15 15:56:11 Page 1
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 10:50:26 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -38,187 +38,789 @@ C o m p i l a t i o n
   32   
   33  *-- Import from .inc & Excel--------
   34  sets
-  35  $include  indices.inc
-****                      $282
-  36  ;
-****  $2
-  37   
-  38  table Gmap(i,j,*)
-****                  $361,362
-  39  $include Resistive_Network.inc
-****                               $282
-  40  ;
-****  $463
-  41   
-  42  table CSmap(i,j,*)
-****                   $361,362
-  43  $include CSources.inc
-****                      $282
-  44  ;
-****  $463
-  45   
-  46  table CPmap(i,j,*)
-****                   $361,362
-  47  $include CPload.inc
-****                    $282
-  48  ;
-****  $463
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\indices.inc
+  36  * -----------------------------------------------------
+  37  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+  38  * Erwin Kalvelagen, GAMS Development Corp.
+  39  * -----------------------------------------------------
+  40  * Application: Microsoft Excel
+  41  * Version:     16.0
+  42  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Po
+      wer Flow\Input_Data.xls
+  43  * Sheet:       Indices_Sheet(Sheet1)
+  44  * Range:       $C$4:$H$10
+  45  * -----------------------------------------------------
+  46  * Indices
+  47  i         /    n1   *    n6   /
+  48   
   49   
-  50  table CVmap(i,j,*)
-****                   $361,362
-  51  $include CVref.inc
-****                   $282
-  52  ;
-****  $463
-  53   
-  54  table DCVmap(i,j,*)
-****                    $361,362
-  55  $include DCVref.inc
-****                    $282
-  56  ;
-****  $463
-  57   
-  58  table DCGmap(i,j,*)
-****                    $361,362
-  59  $include G_Droop.inc
-****                     $282
-  60  ;
-****  $463
-  61   
-  62  G     (i,j) = Gmap   (i,j,'Gline' ) ;
-****         $352,352       $352,352  $116
-  63  CCS   (i,j) = CSmap  (i,j,'L'     ) ;
-****         $352,352       $352,352,116
-  64  DCCS  (i,j) = DCVmap (i,j,'DCVref') ;
-****         $352,352       $352,352   $116
-  65  CV    (i,j) = CVmap  (i,j,'CVref' ) ;
-****         $352,352       $352,352  $116
-  66  CP    (i,j) = CPmap  (i,j,'CPload') ;
-****         $352,352       $352,352   $116
-  67  Vref  (i,j) = DCVmap (i,j,'DCVref') ;
-****         $352,352       $352,352
-  68  Gdroop(i,j) = DCGmap (i,j,'Gdroop') ;
-****         $352,352       $352,352   $116
-  69   
-  70  *--------------------------------
-  71  * Nominal Voltage for CP loads
-  72  scalar Vnom      /47.5/
-  73  *--------------------------------
-  74  * Definition of Variables
-  75  Variables
-  76  * Resistive Network Side
-  77  *--------------------------------
-  78  Ibranch(i,j)      'Branch Current'
-  79  V(i)              'Nodal Voltage'
-  80  In(i)             'Nodal Current'
-  81  Incv (i,j)
-  82  *--------------------------------
+  50   
+  51   
+  52   
+  53  * -----------------------------------------------------
+  54  ;
+  55   
+  56  table Gmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Resistive_Ne
+           twork.inc
+  58  * -----------------------------------------------------
+  59  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+  60  * Erwin Kalvelagen, GAMS Development Corp.
+  61  * -----------------------------------------------------
+  62  * Application: Microsoft Excel
+  63  * Version:     16.0
+  64  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Po
+      wer Flow\Input_Data.xls
+  65  * Sheet:       Circuit_Data(Sheet2)
+  66  * Range:       $B$4:$E$35
+  67  * -----------------------------------------------------
+  68          Gline
+  69  n2.n3   1
+  70  n3.n6   1
+  71  n3.n4   1
+  72  n6.n5   1
+  73  n5.n1   0.1
+  74  n1.n4   1
+  75   
+  76   
+  77   
+  78   
+  79   
+  80   
+  81   
+  82   
   83   
-  84  *--------------------------------
-  85  * Solver
-  86  dummy            'dummy variable'
-  87  *--------------------------------
-  88  ;
+  84   
+  85   
+  86   
+  87   
+  88   
   89   
-  90  Equations
-  91  AllCurrentSources (i)    'Current input by Sources'
-  92  BranchCurrent     (i,j)  'Current Flowing through ij branch'
+  90   
+  91   
+  92   
   93   
-  94  * Nodal current calculated as the difference between the total input and
-  95  * total output of currents flowing through connected branches
-  96  NodalCurrent       (i)    'Nodal Current equation'
+  94   
+  95   
+  96   
   97   
-  98  * Current through Constant Voltage loads and defining the Voltage differen
-      ce
-  99  * between two given nodes
- 100  NodalCurrentCV     (i,j)
- 101  ConstantVoltage    (i,j)
- 102  *-------------------------------
- 103  edummy
- 104  ;
- 105   
- 106  *-------------------------------
- 107  * Set Voltage limits and fixed nodal voltages
- 108  V.lo(i)     =   -200;
-****       $352
- 109  V.up(i)     =    200;
-****       $352
- 110  V.fx('n1')  =    0;
-****          $353
- 111   
- 112   
- 113  *dynamic set of indices
- 114  ij(i,j)    $[G(i,j)]     = yes;
-****     $352,352    $352,352
- 115  is(i,j)    $[CCS(i,j)]   = yes;
-****     $352,352      $352,352
- 116  idccs(i,j) $[DCCS(i,j)]  = yes;
-****        $352,352    $352,352
- 117  icv(i,j)   $[CV(i,j)]    = yes;
-****      $352,352    $352,352
- 118  icp(i,j)   $[CP(i,j)]    = yes;
-****      $352,352    $352,352
+  98   
+  99   
+ 100  * -----------------------------------------------------
+ 101  ;
+ 102   
+ 103  table CSmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CSources.inc
+ 105  * -----------------------------------------------------
+ 106  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 107  * Erwin Kalvelagen, GAMS Development Corp.
+ 108  * -----------------------------------------------------
+ 109  * Application: Microsoft Excel
+ 110  * Version:     16.0
+ 111  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Po
+      wer Flow\Input_Data.xls
+ 112  * Sheet:       Circuit_Data(Sheet2)
+ 113  * Range:       $G$4:$J$35
+ 114  * -----------------------------------------------------
+ 115          L
+ 116  n2.n1   2
+ 117  n4.n5   3
+ 118   
  119   
- 120  * Equations from the resistive part of the network
- 121  BranchCurrent    (ij(i,j)) .. Ibranch(i,j) =e= (G(i,j)*(V(i)-V(j)));
- 122  NodalCurrent     (i)       .. In(i) =e= sum[j $ij(i,j)   ,Ibranch(i,j)]-su
-      m[j $ij(j,i), Ibranch(j,i)];
+ 120   
+ 121   
+ 122   
  123   
- 124  * Current Sources and loads (CC, DCCS, CV)
- 125  AllCurrentSources (i)         .. In(i)     =e=  - sum[j $icv(i,j), Incv(i,
+ 124   
+ 125   
+ 126   
+ 127   
+ 128   
+ 129   
+ 130   
+ 131  n1.n2   -2
+ 132  n5.n4   -3
+ 133   
+ 134   
+ 135   
+ 136   
+ 137   
+ 138   
+ 139   
+ 140   
+ 141   
+ 142   
+ 143   
+ 144   
+ 145   
+ 146   
+ 147  * -----------------------------------------------------
+ 148  ;
+ 149   
+ 150  table CPmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CPload.inc
+ 152  * -----------------------------------------------------
+ 153  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 154  * Erwin Kalvelagen, GAMS Development Corp.
+ 155  * -----------------------------------------------------
+ 156  * Application: Microsoft Excel
+ 157  * Version:     16.0
+ 158  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Po
+      wer Flow\Input_Data.xls
+ 159  * Sheet:       Circuit_Data(Sheet2)
+ 160  * Range:       $L$4:$O$35
+ 161  * -----------------------------------------------------
+ 162          CPload
+ 163  n6.n6   0
+ 164   
+ 165   
+ 166   
+ 167   
+ 168   
+ 169   
+ 170   
+ 171   
+ 172   
+ 173   
+ 174   
+ 175   
+ 176   
+ 177   
+ 178   
+ 179   
+ 180   
+ 181   
+ 182   
+ 183   
+ 184   
+ 185   
+ 186   
+ 187   
+ 188   
+ 189   
+ 190   
+ 191   
+ 192   
+ 193   
+ 194  * -----------------------------------------------------
+ 195  ;
+ 196   
+ 197  table CVmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CVref.inc
+ 199  * -----------------------------------------------------
+ 200  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 201  * Erwin Kalvelagen, GAMS Development Corp.
+ 202  * -----------------------------------------------------
+ 203  * Application: Microsoft Excel
+ 204  * Version:     16.0
+ 205  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Po
+      wer Flow\Input_Data.xls
+ 206  * Sheet:       Circuit_Data(Sheet2)
+ 207  * Range:       $Q$4:$T$35
+ 208  * -----------------------------------------------------
+ 209          CVref
+ 210  n5.n5   0
+ 211   
+ 212   
+ 213   
+ 214   
+ 215   
+ 216   
+ 217   
+ 218   
+ 219   
+ 220   
+ 221   
+ 222   
+ 223   
+ 224   
+ 225   
+ 226   
+ 227   
+ 228   
+ 229   
+ 230   
+ 231   
+ 232   
+ 233   
+ 234   
+ 235   
+ 236   
+ 237   
+ 238   
+ 239   
+ 240   
+ 241  * -----------------------------------------------------
+ 242  ;
+ 243   
+ 244  table DCVmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\DCVref.inc
+ 246  * -----------------------------------------------------
+ 247  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 248  * Erwin Kalvelagen, GAMS Development Corp.
+ 249  * -----------------------------------------------------
+ 250  * Application: Microsoft Excel
+ 251  * Version:     16.0
+ 252  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Po
+      wer Flow\Input_Data.xls
+ 253  * Sheet:       Circuit_Data(Sheet2)
+ 254  * Range:       $V$4:$Y$35
+ 255  * -----------------------------------------------------
+ 256          DCVref
+ 257  n3.n3   0
+ 258   
+ 259   
+ 260   
+ 261   
+ 262   
+ 263   
+ 264   
+ 265   
+ 266   
+ 267   
+ 268   
+ 269   
+ 270   
+ 271   
+ 272   
+ 273   
+ 274   
+ 275   
+ 276   
+ 277   
+ 278   
+ 279   
+ 280   
+ 281   
+ 282   
+ 283   
+ 284   
+ 285   
+ 286   
+ 287   
+ 288  * -----------------------------------------------------
+ 289  ;
+ 290   
+ 291  table DCGmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\G_Droop.inc
+ 293  * -----------------------------------------------------
+ 294  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 295  * Erwin Kalvelagen, GAMS Development Corp.
+ 296  * -----------------------------------------------------
+ 297  * Application: Microsoft Excel
+ 298  * Version:     16.0
+ 299  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Po
+      wer Flow\Input_Data.xls
+ 300  * Sheet:       Circuit_Data(Sheet2)
+ 301  * Range:       $V$4:$X$35,$Z$4:$Z$35
+ 302  * -----------------------------------------------------
+ 303          Gdroop
+ 304  n3.n3   0
+ 305   
+ 306   
+ 307   
+ 308   
+ 309   
+ 310   
+ 311   
+ 312   
+ 313   
+ 314   
+ 315   
+ 316   
+ 317   
+ 318   
+ 319   
+ 320   
+ 321   
+ 322   
+ 323   
+ 324   
+ 325   
+ 326   
+ 327   
+ 328   
+ 329   
+ 330   
+ 331   
+ 332   
+ 333   
+ 334   
+ 335  * -----------------------------------------------------
+ 336  ;
+ 337   
+ 338  G     (i,j) = Gmap   (i,j,'Gline' ) ;
+ 339  CCS   (i,j) = CSmap  (i,j,'L'     ) ;
+ 340  DCCS  (i,j) = DCVmap (i,j,'DCVref') ;
+ 341  CV    (i,j) = CVmap  (i,j,'CVref' ) ;
+ 342  CP    (i,j) = CPmap  (i,j,'CPload') ;
+ 343  Vref  (i,j) = DCVmap (i,j,'DCVref') ;
+ 344  Gdroop(i,j) = DCGmap (i,j,'Gdroop') ;
+ 345   
+ 346  *--------------------------------
+ 347  * Nominal Voltage for CP loads
+ 348  scalar Vnom      /47.5/
+ 349  *--------------------------------
+ 350  * Definition of Variables
+ 351  Variables
+ 352  * Resistive Network Side
+ 353  *--------------------------------
+ 354  Ibranch(i,j)      'Branch Current'
+ 355  V(i)              'Nodal Voltage'
+ 356  In(i)             'Nodal Current'
+ 357  Incv (i,j)
+ 358  *--------------------------------
+ 359   
+ 360  *--------------------------------
+ 361  * Solver
+ 362  dummy            'dummy variable'
+ 363  *--------------------------------
+ 364  ;
+ 365   
+ 366  Equations
+ 367  AllCurrentSources (i)    'Current input by Sources'
+ 368  BranchCurrent     (i,j)  'Current Flowing through ij branch'
+ 369   
+ 370  * Nodal current calculated as the difference between the total input and
+ 371  * total output of currents flowing through connected branches
+ 372  NodalCurrent       (i)    'Nodal Current equation'
+ 373   
+ 374  * Current through Constant Voltage loads and defining the Voltage differen
+      ce
+ 375  * between two given nodes
+ 376  NodalCurrentCV     (i,j)
+ 377  ConstantVoltage    (i,j)
+ 378  *-------------------------------
+ 379  edummy
+ 380  ;
+ 381   
+ 382  *-------------------------------
+ 383  * Set Voltage limits and fixed nodal voltages
+ 384  V.lo(i)     =   -200;
+ 385  V.up(i)     =    200;
+ 386  V.fx('n1')  =    0;
+ 387   
+ 388   
+ 389  *dynamic set of indices
+ 390  ij(i,j)    $[G(i,j)]     = yes;
+ 391  is(i,j)    $[CCS(i,j)]   = yes;
+ 392  idccs(i,j) $[DCCS(i,j)]  = yes;
+ 393  icv(i,j)   $[CV(i,j)]    = yes;
+ 394  icp(i,j)   $[CP(i,j)]    = yes;
+ 395   
+ 396  * Equations from the resistive part of the network
+ 397  BranchCurrent    (ij(i,j)) .. Ibranch(i,j) =e= (G(i,j)*(V(i)-V(j)));
+ 398  NodalCurrent     (i)       .. In(i) =e= sum[j $ij(i,j)   ,Ibranch(i,j)]-su
+      m[j $ij(j,i), Ibranch(j,i)];
+ 399   
+ 400  * Current Sources and loads (CC, DCCS, CV)
+ 401  AllCurrentSources (i)         .. In(i)     =e=  - sum[j $icv(i,j), Incv(i,
       j)]  + sum[j $is(i,j)   ,CCS(i,j)] + sum[j $icp(i,j), CP(i,j)/Vnom*[1-1/Vn
       om*(V(i)-V(j)-Vnom)]]  + sum[j $idccs(i,j),(Vref(i,j) - [V(i)-V(j)])*Gdroo
       p(i,j)];
- 126   
- 127  *-------------------------------
- 128  ConstantVoltage   (icv(i,j))  .. V(i)-V(j) =e=  CV(i,j);
- 129  NodalCurrentCV    (icv(i,k))  .. sum[j $icv(i,j), Incv(j,i) ]  + sum[l $ij
+ 402   
+ 403  *-------------------------------
+ 404  ConstantVoltage   (icv(i,j))  .. V(i)-V(j) =e=  CV(i,j);
+ 405  NodalCurrentCV    (icv(i,k))  .. sum[j $icv(i,j), Incv(j,i) ]  + sum[l $ij
       (l,i), Ibranch(l,i)] =e= 0;
- 130   
- 131  edummy.. dummy =e= 0;
- 132  *-------------------------------
- 133   
- 134  Model PowerFlow /all/ ;
- 135  Solve PowerFlow minimizing dummy using lp;
-****                                           $257
- 136  display
- 137                    G,
- 138                  V.l,
- 139                   ij,
- 140                   is,
- 141                idccs,
- 142                  icv,
- 143                 in.l,
-****                    $141
- 144                  icp,
- 145            Ibranch.l
-****                    $141
- 146  ;
-GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/19/15 15:56:11 Page 2
+ 406   
+ 407  edummy.. dummy =e= 0;
+ 408  *-------------------------------
+ 409   
+ 410  Model PowerFlow /all/ ;
+ 411  Solve PowerFlow minimizing dummy using lp;
+ 412  display
+ 413                    G,
+ 414                  V.l,
+ 415                   ij,
+ 416                   is,
+ 417                idccs,
+ 418                  icv,
+ 419                 in.l,
+ 420                  icp,
+ 421            Ibranch.l
+ 422  ;
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 10:50:26 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Error Messages
+Include File Summary
 
 
-  2  Identifier expected
-116  Label is unknown
-141  Symbol declared but no values have been assigned. Check for missing
-        data definition, assignment, data loading or implicit assignment
-        via a solve statement.
-        A wild shot: You may have spurious commas in the explanatory
-        text of a declaration. Check symbol reference list.
-257  Solve statement not checked because of previous errors
-282  Unable to open include file
-352  Set has not been initialized
-353  The domain for this index position is unknown and the element
-        cannot be checked at this point. Missing data statement.
-361  Values for domain 1 are unknown - no checking possible
-362  Values for domain 2 are unknown - no checking possible
-463  The column section in the previous table is missing
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
 
-**** 86 ERROR(S)   0 WARNING(S)
+     1        1 INPUT          0       0  C:\Users\robin\Google Drive\TU Delft\T
+                                          hesis\GAMS\projdir\Power Flow\MainPowe
+                                          rFlow.gms
+     2       35 INCLUDE        1      35  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\indices.inc
+     3       57 INCLUDE        1      39  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\Resistive_Network
+                                           .inc
+     4      104 INCLUDE        1      43  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\CSources.inc
+     5      151 INCLUDE        1      47  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\CPload.inc
+     6      198 INCLUDE        1      51  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\CVref.inc
+     7      245 INCLUDE        1      55  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\DCVref.inc
+     8      292 INCLUDE        1      59  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\G_Droop.inc
 
 
-COMPILATION TIME     =        0.312 SECONDS      3 MB  24.5.3 r54322 WEX-WEI
+COMPILATION TIME     =        0.000 SECONDS      3 MB  24.5.3 r54322 WEX-WEI
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 10:50:26 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE PowerFlow Using LP From line 411
+
+
+---- AllCurrentSources  =E=  Current input by Sources
+
+AllCurrentSources(n1)..  In(n1) =E= -2 ; (LHS = 0, INFES = 2 ****)
+     
+AllCurrentSources(n2)..  In(n2) =E= 2 ; (LHS = 0, INFES = 2 ****)
+     
+AllCurrentSources(n3)..  In(n3) =E= 0 ; (LHS = 0)
+     
+AllCurrentSources(n4)..  In(n4) =E= 3 ; (LHS = 0, INFES = 3 ****)
+     
+AllCurrentSources(n5)..  In(n5) =E= -3 ; (LHS = 0, INFES = 3 ****)
+     
+AllCurrentSources(n6)..  In(n6) =E= 0 ; (LHS = 0)
+     
+
+---- BranchCurrent  =E=  Current Flowing through ij branch
+
+BranchCurrent(n1,n4)..  Ibranch(n1,n4) - V(n1) + V(n4) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n2,n3)..  Ibranch(n2,n3) - V(n2) + V(n3) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n3,n4)..  Ibranch(n3,n4) - V(n3) + V(n4) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n3,n6)..  Ibranch(n3,n6) - V(n3) + V(n6) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n5,n1)..  Ibranch(n5,n1) + 0.1*V(n1) - 0.1*V(n5) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n6,n5)..  Ibranch(n6,n5) + V(n5) - V(n6) =E= 0 ; (LHS = 0)
+     
+
+---- NodalCurrent  =E=  Nodal Current equation
+
+NodalCurrent(n1)..  - Ibranch(n1,n4) + Ibranch(n5,n1) + In(n1) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n2)..  - Ibranch(n2,n3) + In(n2) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n3)..  Ibranch(n2,n3) - Ibranch(n3,n4) - Ibranch(n3,n6) + In(n3)
+      =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n4)..  Ibranch(n1,n4) + Ibranch(n3,n4) + In(n4) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n5)..  - Ibranch(n5,n1) + Ibranch(n6,n5) + In(n5) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n6)..  Ibranch(n3,n6) - Ibranch(n6,n5) + In(n6) =E= 0 ; (LHS = 0)
+     
+
+---- NodalCurrentCV  =E=  
+
+                NONE
+
+
+---- ConstantVoltage  =E=  
+
+                NONE
+
+
+---- edummy  =E=  
+
+edummy..  dummy =E= 0 ; (LHS = 0)
+     
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 10:50:26 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE PowerFlow Using LP From line 411
+
+
+---- Ibranch  Branch Current
+
+Ibranch(n1,n4)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       BranchCurrent(n1,n4)
+       -1       NodalCurrent(n1)
+        1       NodalCurrent(n4)
+
+Ibranch(n2,n3)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       BranchCurrent(n2,n3)
+       -1       NodalCurrent(n2)
+        1       NodalCurrent(n3)
+
+Ibranch(n3,n4)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       BranchCurrent(n3,n4)
+       -1       NodalCurrent(n3)
+        1       NodalCurrent(n4)
+
+REMAINING 3 ENTRIES SKIPPED
+
+---- V  Nodal Voltage
+
+V(n1)
+                (.LO, .L, .UP, .M = 0, 0, 0, 0)
+       -1       BranchCurrent(n1,n4)
+        0.1     BranchCurrent(n5,n1)
+
+V(n2)
+                (.LO, .L, .UP, .M = -200, 0, 200, 0)
+       -1       BranchCurrent(n2,n3)
+
+V(n3)
+                (.LO, .L, .UP, .M = -200, 0, 200, 0)
+        1       BranchCurrent(n2,n3)
+       -1       BranchCurrent(n3,n4)
+       -1       BranchCurrent(n3,n6)
+
+REMAINING 3 ENTRIES SKIPPED
+
+---- In  Nodal Current
+
+In(n1)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       AllCurrentSources(n1)
+        1       NodalCurrent(n1)
+
+In(n2)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       AllCurrentSources(n2)
+        1       NodalCurrent(n2)
+
+In(n3)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       AllCurrentSources(n3)
+        1       NodalCurrent(n3)
+
+REMAINING 3 ENTRIES SKIPPED
+
+---- dummy  dummy variable
+
+dummy
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       edummy
+
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 10:50:26 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE PowerFlow Using LP From line 411
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           6     SINGLE EQUATIONS           19
+BLOCKS OF VARIABLES           4     SINGLE VARIABLES           19
+NON ZERO ELEMENTS            43
+
+
+GENERATION TIME      =        0.047 SECONDS      4 MB  24.5.3 r54322 WEX-WEI
+
+
+EXECUTION TIME       =        0.047 SECONDS      4 MB  24.5.3 r54322 WEX-WEI
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 10:50:26 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE PowerFlow Using LP From line 411
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   PowerFlow           OBJECTIVE  dummy
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  411
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE                0.0000
+
+ RESOURCE USAGE, LIMIT          0.016      1000.000
+ ITERATION COUNT, LIMIT         1    2000000000
+
+IBM ILOG CPLEX   24.5.3 r54322 Released Oct  1, 2015 WEI x86 64bit/MS Windows 
+Cplex 12.6.2.0
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(1): optimal
+Cplex Time: 0.00sec (det. 0.02 ticks)
+Optimal solution found.
+Objective :           0.000000
+
+
+---- EQU AllCurrentSources  Current input by Sources
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+n1    -2.000    -2.000    -2.000      EPS       
+n2     2.000     2.000     2.000      EPS       
+n3      .         .         .         EPS       
+n4     3.000     3.000     3.000      EPS       
+n5    -3.000    -3.000    -3.000      EPS       
+n6      .         .         .         EPS       
+
+---- EQU BranchCurrent  Current Flowing through ij branch
+
+         LOWER     LEVEL     UPPER    MARGINAL
+
+n1.n4      .         .         .         EPS       
+n2.n3      .         .         .         EPS       
+n3.n4      .         .         .         EPS       
+n3.n6      .         .         .         EPS       
+n5.n1      .         .         .         EPS       
+n6.n5      .         .         .         EPS       
+
+---- EQU NodalCurrent  Nodal Current equation
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+n1      .         .         .         EPS       
+n2      .         .         .         EPS       
+n3      .         .         .         EPS       
+n4      .         .         .         EPS       
+n5      .         .         .         EPS       
+n6      .         .         .         .         
+
+---- EQU NodalCurrentCV  
+
+                NONE
+
+
+---- EQU ConstantVoltage  
+
+                NONE
+
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- EQU edummy          .         .         .        1.000      
+
+---- VAR Ibranch  Branch Current
+
+         LOWER     LEVEL     UPPER    MARGINAL
+
+n1.n4     -INF     -2.357     +INF       .         
+n2.n3     -INF      2.000     +INF       .         
+n3.n4     -INF     -0.643     +INF       .         
+n3.n6     -INF      2.643     +INF       .         
+n5.n1     -INF     -0.357     +INF       .         
+n6.n5     -INF      2.643     +INF       .         
+
+---- VAR V  Nodal Voltage
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+n1      .         .         .         EPS       
+n2  -200.000     3.714   200.000      .         
+n3  -200.000     1.714   200.000      .         
+n4  -200.000     2.357   200.000      .         
+n5  -200.000    -3.571   200.000      .         
+n6  -200.000    -0.929   200.000      .         
+
+---- VAR In  Nodal Current
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+n1     -INF     -2.000     +INF       .         
+n2     -INF      2.000     +INF       .         
+n3     -INF       .        +INF       .         
+n4     -INF      3.000     +INF       .         
+n5     -INF     -3.000     +INF       .         
+n6     -INF       .        +INF       .         
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- VAR dummy          -INF       .        +INF       .         
+
+  dummy  dummy variable
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 10:50:26 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+----    413 PARAMETER G  
+
+            n1          n3          n4          n5          n6
+
+n1                               1.000
+n2                   1.000
+n3                               1.000                   1.000
+n5       0.100
+n6                                           1.000
+
+
+----    413 VARIABLE V.L  Nodal Voltage
+
+n2  3.714,    n3  1.714,    n4  2.357,    n5 -3.571,    n6 -0.929
+
+
+----    413 SET ij  lines
+
+            n1          n3          n4          n5          n6
+
+n1                                 YES
+n2                     YES
+n3                                 YES                     YES
+n5         YES
+n6                                             YES
+
+
+----    413 SET is  current sources
+
+            n1          n2          n4          n5
+
+n1                     YES
+n2         YES
+n4                                             YES
+n5                                 YES
+
+
+----    413 SET idccs  droop controlled sources
+
+                                                      ( EMPTY )
+
+
+----    413 SET icv  constant voltage
+
+                                                      ( EMPTY )
+
+
+----    413 VARIABLE In.L  Nodal Current
+
+n1 -2.000,    n2  2.000,    n4  3.000,    n5 -3.000
+
+
+----    413 SET icp  constant power
+
+                                                      ( EMPTY )
+
+
+----    413 VARIABLE Ibranch.L  Branch Current
+
+            n1          n3          n4          n5          n6
+
+n1                              -2.357
+n2                   2.000
+n3                              -0.643                   2.643
+n5      -0.357
+n6                                           2.643
+
+
+
+EXECUTION TIME       =        0.000 SECONDS      3 MB  24.5.3 r54322 WEX-WEI
 
 
 USER: Course License, Introduction to Decision Suppo G150929:0359AO-GEN
@@ -232,5 +834,3 @@ Input      C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Power Flow\M
            ainPowerFlow.gms
 Output     C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\MainPowerFlo
            w.lst
-
-**** USER ERROR(S) ENCOUNTERED

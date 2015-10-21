@@ -1,8 +1,3 @@
-* Import data --------------------------------------------
-
-
-file ExternalFile / ExternalFile.txt /
-$onecho  > ExternalFile.txt
  i="Input_Data.xls"
  r0=Indices
  o0=Indices.inc
@@ -21,6 +16,3 @@ $onecho  > ExternalFile.txt
 
 
 
-$offecho
-$call xls2gms @"ExternalFile.txt"
-* End of import data -------------------------------------
