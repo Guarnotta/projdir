@@ -18,7 +18,7 @@ Sets
 $include Indices_OPF.inc
 ;
 
-table Rmap(i,j,*)
+table Gmap(i,j,*)
 $include Resistive_Network_OPF.inc
 ;
 
@@ -35,7 +35,7 @@ $include CCloads_OPF.inc
 
 Parameters
 
-R          (i,j)
+G          (i,j)
 CCSref     (i,j)
 CCScost    (i,j)
 CCSmax     (i,j)
@@ -44,7 +44,7 @@ CCLoads    (i,j)
 Sources
 ;
 
-R        (i,j)  =  Rmap(i,j,'Rline')           ;
+G        (i,j)  =  Gmap(i,j,'Gline')           ;
 CCSref   (i,j)  =  CCsourcesmap(i,j,'CCSmap')  ;
 CCScost  (i,j)  =  CCsourcesmap(i,j,'CCScost') ;
 CCSmax   (i,j)  =  CCsourcesmap(i,j,'CCSmax')  ;
@@ -60,7 +60,7 @@ Vnom       /47.5/
 * -----------------------------------------------------------------------------
 * DYNAMIC SET OF INDICES
 
-ij    (i,j)    $[R(i,j)]            = yes;
+ij    (i,j)    $[G(i,j)]            = yes;
 CCs   (i,j)    $[CCSref(i,j)]       = yes;
 CCl   (i,j)    $[CCLoads(i,j)]      = yes;
 
@@ -85,7 +85,7 @@ AllCurrentSources (i)     'Sum of currents of all sources at node i'
 BranchCurrent     (i,j)   'Current in branch ij'
 NodalCurrent      (i)     'Nodal current equation'
 
-Equality
+*Equality
 Costfunction              'Cost function to be minimized'
 ;
 
@@ -106,7 +106,7 @@ CCSources.up (i,j) = 9;
 * -----------------------------------------------------------------------------
 * Circuit Equation
 
-BranchCurrent     (ij(i,j)) .. Ibr(i,j) =e=  (R(i,j)*(V(i)-V(j)));
+BranchCurrent     (ij(i,j)) .. Ibr(i,j) =e=  (G(i,j)*(V(i)-V(j)));
 NodalCurrent      (i)       .. In(i)    =e=  sum[j $ij(i,j)   ,Ibr(i,j)] - sum[j $ij(j,i), Ibr(j,i)];
 AllCurrentSources (i)       .. In(i)    =e=  sum[j $CCs(i,j)  ,CCSources(i,j)] + sum[j $CCl(i,j)  ,CCLoads(i,j)];
 
@@ -115,7 +115,7 @@ AllCurrentSources (i)       .. In(i)    =e=  sum[j $CCs(i,j)  ,CCSources(i,j)] +
 * -----------------------------------------------------------------------------
 * OPTIMAL POWER FLOW EQUATIONS
 
-Equality                    ..  sum[(i,j) $CCs(i,j), CCSources(i,j)] =e= sum[(i,j) $CCl(i,j), CCLoads(i,j)];
+*Equality                    ..  sum[(i,j) $CCs(i,j), CCSources(i,j)] =e= sum[(i,j) $CCl(i,j), CCLoads(i,j)];
 Costfunction                ..  cost    =e=  sum[(i,j) $CCs(i,j), CCSources(i,j)*CCScost(i,j)];
 
 model OPF /all/;
@@ -123,7 +123,7 @@ model OPF /all/;
 solve OPF minimizing cost using lp;
 
 Display
-R,
+G,
 V.l,
 ij,
 CCs,
