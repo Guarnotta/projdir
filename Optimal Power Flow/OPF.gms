@@ -69,7 +69,7 @@ Sources  = sum[(i,j), CCSref(i,j)];
 * VARIABLE DEFINITION
 
 Variables
-Ibr       (i,j)         'Branch Current'
+Ibranch       (i,j)         'Branch Current'
 In        (i)           'Nodal Current'
 V         (i)           'Nodal Voltage'
 CCSources (i,j)         'Constant Current Source'
@@ -106,8 +106,8 @@ CCSources.up (i,j) = 9;
 * -----------------------------------------------------------------------------
 * Circuit Equation
 
-BranchCurrent     (ij(i,j)) .. Ibr(i,j) =e=  (G(i,j)*(V(i)-V(j)));
-NodalCurrent      (i)       .. In(i)    =e=  sum[j $ij(i,j)   ,Ibr(i,j)] - sum[j $ij(j,i), Ibr(j,i)];
+BranchCurrent     (ij(i,j)) .. Ibranch(i,j) =e=  (G(i,j)*(V(i)-V(j)));
+NodalCurrent      (i)       .. In(i)    =e=  sum[j $ij(i,j)   ,Ibranch(i,j)] - sum[j $ij(j,i), Ibranch(j,i)];
 AllCurrentSources (i)       .. In(i)    =e=  sum[j $CCs(i,j)  ,CCSources(i,j)] + sum[j $CCl(i,j)  ,CCLoads(i,j)];
 
 
@@ -129,7 +129,7 @@ ij,
 CCs,
 CCl,
 In.l,
-Ibr.l,
+Ibranch.l,
 CCSources.l,
 cost.l
 ;
