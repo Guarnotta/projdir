@@ -1,4 +1,4 @@
-GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/19/15 18:15:50 Page 1
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 17:24:07 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -8,7 +8,7 @@ C o m p i l a t i o n
    3   
    4  file ExternalFile / ExternalFileOPF.txt /
   20  * End of import data -------------------------------------
-GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/19/15 18:15:50 Page 2
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/21/15 17:24:07 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Include File Summary
 
@@ -21,7 +21,7 @@ Include File Summary
      2       19 CALL           1      19  xls2gms @"ExternalFileOPF.txt"
 
 
-COMPILATION TIME     =        2.563 SECONDS      2 MB  24.5.3 r54322 WEX-WEI
+COMPILATION TIME     =        7.281 SECONDS      2 MB  24.5.3 r54322 WEX-WEI
 
 
 EXECUTION TIME       =        0.000 SECONDS      2 MB  24.5.3 r54322 WEX-WEI

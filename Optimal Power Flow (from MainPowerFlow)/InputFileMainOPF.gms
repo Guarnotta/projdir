@@ -2,7 +2,7 @@
 
 
 file ExternalFile / ExternalFile.txt /
-$onecho  > ExternalFileOPF-2.txt
+$onecho  > ExternalFileOPF.txt
  i="Input_Data_OPF.xls"
  r0=Indices
  o0=Indices_OPF.inc
@@ -24,5 +24,5 @@ $onecho  > ExternalFileOPF-2.txt
 
 
 $offecho
-$call xls2gms @"ExternalFileOPF-2.txt"
+$call xls2gms @"ExternalFileOPF.txt"
 * End of import data -------------------------------------

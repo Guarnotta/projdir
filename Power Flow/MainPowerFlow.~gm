@@ -108,7 +108,8 @@ edummy
 V.lo(i)     =   -200;
 V.up(i)     =    200;
 V.fx('n1')  =    0;
-
+V.fx('n9')  =    0;
+V.fx('n6')  =    0;
 
 
 *dynamic set of indices

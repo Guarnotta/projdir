@@ -119,16 +119,31 @@ NodalCurrent       (i)     'Nodal current equation'
 NodalCurrentCV     (i,j)
 ConstantVoltage    (i,j)
 Costfunction               'Cost function to be minimized'
-*Equality
+*Equality           (i,j)
+Equality2          (i,j)
 ;
 
 * -----------------------------------------------------------------------------
 * Set Voltage limits and fixed nodal voltages
 
-V.lo(i)           =   -100;
-V.up(i)           =    100;
+*V.lo(i)           =   -200;
+*V.up(i)           =    200;
 V.fx('n1')        =    0;
 
+V.fx('n1')     =   0;
+V.lo('n2')     =  50;
+V.lo('n3')     =  50;
+V.lo('n5')     =  50;
+
+V.up('n2')     =  500;
+V.up('n3')     =  500;
+V.up('n5')     =  500;
+
+V.lo('n4')     =  -10;
+V.lo('n6')     =  -10;
+
+V.up('n4')     =  500;
+V.up('n6')     =  500;
 
 *CCSources.lo (i,j) = CCSmin (i,j);
 *CCSources.up (i,j) = CCSmax (i,j);
@@ -142,12 +157,14 @@ CCSources.up ('n3','n4') = 3;
 * Circuit Equation
 
 BranchCurrent     (ij(i,j))   .. Ibranch(i,j) =e= (G(i,j)*(V(i)-V(j)));
-NodalCurrent      (i)         .. In(i)        =e= sum[j $ij(i,j)   ,Ibranch(i,j)]-sum[j $ij(j,i), Ibranch(j,i)];
+*NodalCurrent      (i)         .. In(i)        =e= sum[j $ij(i,j)   ,Ibranch(i,j)]-sum[j $ij(j,i), Ibranch(j,i)];
+NodalCurrent      (i)         .. In(i)        =e= sum[j $ij(i,j)   ,Ibranch(i,j)];
 AllCurrentSources (i)         .. In(i)         =e=  - sum[j $icv(i,j), Incv(i,j)]  + sum[j $CCs(i,j)   ,CCSources(i,j)] + sum[j $CCl(i,j)   ,CCLoads(i,j)] + sum[j $icp(i,j), CP(i,j)/Vnom*[1-1/Vnom*(V(i)-V(j)-Vnom)]]  + sum[j $idccs(i,j),(Vref(i,j) - [V(i)-V(j)])*Gdroop(i,j)];
 ConstantVoltage   (icv(i,j))  .. V(i)-V(j)    =e=  CV(i,j);
 NodalCurrentCV    (icv(i,k))  .. 0            =e=  sum[j $icv(i,j), Incv(j,i) ]  + sum[l $ij(l,i), Ibranch(l,i)];
 
-*Equality                      .. sum[CCs(i,j), CCSources(i,j)] =e= sum[CCl(i,j), CCLoads(i,j)];
+*Equality          (ij(i,j))   .. Ibranch(i,j)   =e= -Ibranch(j,i) ;
+Equality2         (CCs(i,j))  .. CCSources(i,j) =e= -CCSources(j,i);
 
 * -----------------------------------------------------------------------------
 * OPTIMAL POWER FLOW EQUATIONS

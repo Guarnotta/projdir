@@ -1,0 +1,25 @@
+
+--- Job InputFileMainOPF.gms Start 10/22/15 15:43:28 24.5.3 r54322 WEX-WEI x86 64bit/MS Windows
+GAMS 24.5.3   Copyright (C) 1987-2015 GAMS Development. All rights reserved
+Licensee: Course License, Introduction to Decision Suppo G150929:0359AO-GEN
+          TU Delft, Faculteit Elektrotechniek, Wiskunde en InformatiDC12029
+          License for teaching and research at degree granting institutions
+--- Starting compilation
+--- InputFileMainOPF.gms(27) 2 Mb
+--- call xls2gms @"ExternalFileOPF.txt"
+--- InputFileMainOPF.gms(28) 2 Mb
+--- Starting execution - empty program
+*** Status: Normal completion
+--- Job InputFileMainOPF.gms Stop 10/22/15 15:43:37 elapsed 0:00:09.060
+Delete file 225a\gamsnext.cmd
+Cannot delete file: 225a\gamsnext.cmd
+Cannot delete file: 225a\gmsprmNT.dat
+Cannot delete directory: 225a
+Delete file 225a\gamsnext.cmd
+Cannot delete file: 225a\gamsnext.cmd
+Cannot delete file: 225a\gmsprmNT.dat
+Cannot delete directory: 225a
+Delete file 225a\gamsnext.cmd
+Cannot delete file: 225a\gamsnext.cmd
+Cannot delete file: 225a\gmsprmNT.dat
+Cannot delete directory: 225a

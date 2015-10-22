@@ -1,0 +1,64 @@
+
+--- Job OPF_3.gms Start 10/22/15 10:25:01 24.5.3 r54322 WEX-WEI x86 64bit/MS Windows
+GAMS 24.5.3   Copyright (C) 1987-2015 GAMS Development. All rights reserved
+Licensee: Course License, Introduction to Decision Suppo G150929:0359AO-GEN
+          TU Delft, Faculteit Elektrotechniek, Wiskunde en InformatiDC12029
+          License for teaching and research at degree granting institutions
+--- Starting compilation
+--- OPF_3.gms(30) 2 Mb
+--- .indices_OPF.inc(18) 3 Mb
+--- OPF_3.gms(34) 3 Mb
+--- .Resistive_Network_OPF.inc(43) 3 Mb
+--- OPF_3.gms(38) 3 Mb
+--- .CCSources_OPF.inc(43) 3 Mb
+--- OPF_3.gms(42) 3 Mb
+--- .CCloads_OPF.inc(43) 3 Mb
+--- OPF_3.gms(46) 3 Mb
+--- .CPload_OPF.inc(43) 3 Mb
+--- OPF_3.gms(50) 3 Mb
+--- .CVref_OPF.inc(43) 3 Mb
+--- OPF_3.gms(54) 3 Mb
+--- .DCVref_OPF.inc(43) 3 Mb
+--- OPF_3.gms(58) 3 Mb
+--- .G_Droop_OPF.inc(43) 3 Mb
+--- OPF_3.gms(175) 3 Mb
+--- Starting execution: elapsed 0:00:00.008
+--- OPF_3.gms(465) 4 Mb
+--- Generating LP model PowerFlow
+--- OPF_3.gms(480) 4 Mb
+---   23 rows  27 columns  53 non-zeroes
+--- Executing CPLEX: elapsed 0:00:00.072
+
+IBM ILOG CPLEX   24.5.3 r54322 Released Oct  1, 2015 WEI x86 64bit/MS Windows 
+Cplex 12.6.2.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Infeasibility row 'NodalCurrent(n7)':  0  = 4.8.
+Presolve time = 0.00 sec. (0.01 ticks)
+LP status(3): infeasible
+Cplex Time: 0.00sec (det. 0.01 ticks)
+Rerunning with presolve turned off and solving with LPMETHOD=0
+Initializing dual steep norms . . .
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1  I            0.000000                   cost     Costfunction artif
+     2               0.300000                  V(n4) NodalCurrent(n1) artif
+     3               0.300000                  V(n5) NodalCurrent(n5) artif
+     4               0.300000                  V(n8) NodalCurrent(n8) artif
+     5               0.300000                  V(n6) NodalCurrent(n7) artif
+     6               0.300000                  V(n3) NodalCurrent(n6) artif
+     7               0.300000                  V(n2) NodalCurrent(n3) artif
+LP status(3): infeasible
+Cplex Time: 0.05sec (det. 0.03 ticks)
+
+Model has been proven infeasible.
+--- Restarting execution
+--- OPF_3.gms(480) 2 Mb
+--- Reading solution for model PowerFlow
+--- Executing after solve: elapsed 0:00:00.212
+--- OPF_3.gms(483) 3 Mb
+*** Status: Normal completion
+--- Job OPF_3.gms Stop 10/22/15 10:25:01 elapsed 0:00:00.217

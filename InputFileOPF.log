@@ -1,12 +1,13 @@
 
---- Job Untitled_1.gms Start 10/21/15 10:32:19 24.5.3 r54322 WEX-WEI x86 64bit/MS Windows
+--- Job InputFileOPF.gms Start 10/21/15 17:24:07 24.5.3 r54322 WEX-WEI x86 64bit/MS Windows
 GAMS 24.5.3   Copyright (C) 1987-2015 GAMS Development. All rights reserved
 Licensee: Course License, Introduction to Decision Suppo G150929:0359AO-GEN
           TU Delft, Faculteit Elektrotechniek, Wiskunde en InformatiDC12029
           License for teaching and research at degree granting institutions
 --- Starting compilation
---- Untitled_1.gms(10) 3 Mb
---- Starting execution: elapsed 0:00:00.004
---- Untitled_1.gms(9) 4 Mb
+--- InputFileOPF.gms(19) 2 Mb
+--- call xls2gms @"ExternalFileOPF.txt"
+--- InputFileOPF.gms(20) 2 Mb
+--- Starting execution - empty program
 *** Status: Normal completion
---- Job Untitled_1.gms Stop 10/21/15 10:32:19 elapsed 0:00:00.010
+--- Job InputFileOPF.gms Stop 10/21/15 17:24:14 elapsed 0:00:07.299

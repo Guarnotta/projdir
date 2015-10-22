@@ -1,0 +1,39 @@
+B 2 C o m p i l a t i o n
+B 538 Include File Summary
+B 568 Equation Listing    SOLVE PowerFlow Using LP From line 480
+D 569 AllCurrentSources
+D 593 BranchCurrent
+D 608 NodalCurrent
+D 627 Costfunction
+D 634 NodalCurrentCV
+D 639 ConstantVoltage
+B 646 Column Listing      SOLVE PowerFlow Using LP From line 480
+E 647 Ibranch
+E 670 In
+E 689 V
+E 706 CCSources
+E 726 cost
+B 735 Model Statistics    SOLVE PowerFlow Using LP From line 480
+B 751 Solution Report     SOLVE PowerFlow Using LP From line 480
+F 783 AllCurrentSources
+F 796 BranchCurrent
+F 807 NodalCurrent
+F 818 Costfunction
+F 826 NodalCurrentCV
+F 831 ConstantVoltage
+G 831 Ibranch
+G 842 In
+G 855 V
+G 868 CCSources
+G 877 cost
+B 891 E x e c u t i o n
+I 892 G
+I 905 ij
+I 917 CCs
+I 928 idccs
+I 933 icv
+I 937 In
+I 943 icp
+I 947 V
+I 953 Ibranch
+I 964 CCSources

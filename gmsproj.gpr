@@ -7,9 +7,6 @@
 [RP:POWERFLOW]
 1=
 
-[RP:UNTITLED_1]
-1=
-
 [RP:OPTIMALPOWERFLOW]
 1=
 
@@ -25,47 +22,60 @@
 [RP:OPF_2,1]
 1=
 
-[RP:OPF_2]
+[RP:UNTITLED_1]
 1=
 
 [RP:ECONOMIC DISPATCH]
 1=
 
-[RP:OPF]
+[RP:INPUTFILEOPF_4]
+1=
+
+[RP:OPF_2]
 1=
 
 [RP:MAINPOWERFLOW]
 1=
 
-[RP:OPF_3]
+[RP:INPUTFILE]
 1=
 
 [RP:INPUTFILEOPF_3]
 1=
 
-[RP:INPUTFILE]
+[RP:INPUTFILEMAINOPF]
+1=
+
+[RP:MAINOPF]
+1=
+
+[RP:OPF_3]
 1=
 
 [RP:INPUTFILEOPF]
 1=
 
+[RP:OPF]
+1=
+
 [MRUFILES]
-1=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\InputFile.lst
-2=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\InputFileOPF_3.lst
-3=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\MainPowerFlow.lst
-4=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\OPF_3.lst
-5=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow (from MainPowerFlow)\InputFileOPF_3.gms
-6=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow (from MainPowerFlow)\OPF_3.gms
-7=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CVref.inc
+1=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Resistive_Network_OPF.inc
+2=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CCloads_OPF.inc
+3=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow (from MainPowerFlow)\OPF_3.gms
+4=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow (from MainPowerFlow)\MainOPF.gms
+5=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\MainOPF.lst
+6=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\InputFileMainOPF.lst
+7=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\InputFileOPF_3.lst
 
 [OPENWINDOW_1]
-FILE0=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow\InputFileOPF.gms
-FILE1=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow\OPF.gms
-FILE2=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Power Flow\InputFile.gms
-FILE3=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Power Flow\MainPowerFlow.gms
+FILE0=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\InputFileOPF.lst
+FILE1=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\OPF.lst
+FILE2=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow (from MainPowerFlow)\InputFileMainOPF.gms
+FILE3=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow\InputFileOPF.gms
 FILE4=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow\OPF.gms
+FILE5=C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow (from MainPowerFlow)\InputFileMainOPF.gms
 MAXIM=0
-TOP=-6
-LEFT=-11
-HEIGHT=936
-WIDTH=958
+TOP=0
+LEFT=0
+HEIGHT=624
+WIDTH=928

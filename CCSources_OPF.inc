@@ -4,13 +4,13 @@
 * -----------------------------------------------------
 * Application: Microsoft Excel
 * Version:     16.0
-* Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow\Input_Data_OPF.xls
+* Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Power Flow (from MainPowerFlow)\Input_Data_MainOPF.xls
 * Sheet:       Circuit_Data(Sheet2)
 * Range:       $G$4:$M$35
 * -----------------------------------------------------
         CCSmap CCScost CCSmax CCSmin
-n2.n1   4      4       3      2     
-n3.n4   7      6       1      4     
+n2.n1   1      1       2      0     
+n3.n4   2      2       4      0     
                                     
                                     
                                     
@@ -24,8 +24,8 @@ n3.n4   7      6       1      4
                                     
                                     
                                     
-n1.n2   -4                    `     
-n4.n3   -7                          
+n1.n2   -1                          
+n4.n3   -2                          
                                     
                                     
                                     

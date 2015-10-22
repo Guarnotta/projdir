@@ -1,0 +1,987 @@
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/22/15 10:25:01 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  * Based on Version 11.0
+   2  * --------------------------------------------------------
+   3  * n-node system:
+   4  * n1 as grouding point
+   5  * --------------------------------------------------------
+   6   
+   7  * Choose the number of equations shown in .lst file
+   8  Option
+   9  limrow=15
+  10  ;
+  11   
+  12   
+  13  sets
+  14  i
+  15  ij     (i,i)    lines
+  16  CCs    (i,i)   current sources
+  17  CCl    (i,i)   constant current loads
+  18  idccs  (i,i)    droop controlled sources
+  19  icv    (i,i)    constant voltage
+  20  icp    (i,i)    constant power
+  21  ;
+  22   
+  23  Alias
+  24  (i,j,k,l)
+  25  ;
+  26   
+  27  * ------------------------------------------------------------------------
+      -----
+  28  * DATA IMPORT FROM EXCEL FILE *
+  29  Sets
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\indices_OPF.
+           inc
+  31  * -----------------------------------------------------
+  32  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+  33  * Erwin Kalvelagen, GAMS Development Corp.
+  34  * -----------------------------------------------------
+  35  * Application: Microsoft Excel
+  36  * Version:     16.0
+  37  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Op
+      timal Power Flow (from MainPowerFlow)\Input_Data_OPF2.xls
+  38  * Sheet:       Indices_Sheet(Sheet1)
+  39  * Range:       $C$4:$H$10
+  40  * -----------------------------------------------------
+  41  * Indices
+  42  i         /    n1   *    n8   /
+  43   
+  44   
+  45   
+  46   
+  47   
+  48  * -----------------------------------------------------
+  49  ;
+  50   
+  51  Table Gmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Resistive_Ne
+           twork_OPF.inc
+  53  * -----------------------------------------------------
+  54  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+  55  * Erwin Kalvelagen, GAMS Development Corp.
+  56  * -----------------------------------------------------
+  57  * Application: Microsoft Excel
+  58  * Version:     16.0
+  59  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Op
+      timal Power Flow (from MainPowerFlow)\Input_Data_OPF2.xls
+  60  * Sheet:       Circuit_Data(Sheet2)
+  61  * Range:       $B$4:$E$35
+  62  * -----------------------------------------------------
+  63          Gline
+  64  n2.n3   1
+  65  n3.n6   1
+  66  n1.n4   1
+  67  n4.n5   1
+  68  n6.n7   1
+  69  n5.n8   1
+  70   
+  71   
+  72   
+  73   
+  74   
+  75   
+  76   
+  77   
+  78   
+  79   
+  80   
+  81   
+  82   
+  83   
+  84   
+  85   
+  86   
+  87   
+  88   
+  89   
+  90   
+  91   
+  92   
+  93   
+  94   
+  95  * -----------------------------------------------------
+  96  ;
+  97   
+  98  table CCSmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CCSources_OP
+           F.inc
+ 100  * -----------------------------------------------------
+ 101  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 102  * Erwin Kalvelagen, GAMS Development Corp.
+ 103  * -----------------------------------------------------
+ 104  * Application: Microsoft Excel
+ 105  * Version:     16.0
+ 106  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Op
+      timal Power Flow (from MainPowerFlow)\Input_Data_OPF2.xls
+ 107  * Sheet:       Circuit_Data(Sheet2)
+ 108  * Range:       $G$4:$M$35
+ 109  * -----------------------------------------------------
+ 110          CCSmap CCScost CCSmax CCSmin
+ 111  n2.n1   1      1       3      0.1
+ 112  n3.n4   2      2       4      0.1
+ 113   
+ 114   
+ 115   
+ 116   
+ 117   
+ 118   
+ 119   
+ 120   
+ 121   
+ 122   
+ 123   
+ 124   
+ 125   
+ 126  n1.n2   -1
+ 127  n4.n3   -2
+ 128   
+ 129   
+ 130   
+ 131   
+ 132   
+ 133   
+ 134   
+ 135   
+ 136   
+ 137   
+ 138   
+ 139   
+ 140   
+ 141   
+ 142  * -----------------------------------------------------
+ 143  ;
+ 144   
+ 145  table CCLmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CCloads_OPF.
+           inc
+ 147  * -----------------------------------------------------
+ 148  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 149  * Erwin Kalvelagen, GAMS Development Corp.
+ 150  * -----------------------------------------------------
+ 151  * Application: Microsoft Excel
+ 152  * Version:     16.0
+ 153  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Op
+      timal Power Flow (from MainPowerFlow)\Input_Data_OPF2.xls
+ 154  * Sheet:       Circuit_Data(Sheet2)
+ 155  * Range:       $O$4:$R$35
+ 156  * -----------------------------------------------------
+ 157          CCLmap
+ 158  n8.n7   5
+ 159   
+ 160   
+ 161   
+ 162   
+ 163   
+ 164   
+ 165   
+ 166   
+ 167   
+ 168   
+ 169   
+ 170   
+ 171   
+ 172   
+ 173  n7.n8   -5
+ 174   
+ 175   
+ 176   
+ 177   
+ 178   
+ 179   
+ 180   
+ 181   
+ 182   
+ 183   
+ 184   
+ 185   
+ 186   
+ 187   
+ 188   
+ 189  * -----------------------------------------------------
+ 190  ;
+ 191   
+ 192  Table CPmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CPload_OPF.i
+           nc
+ 194  * -----------------------------------------------------
+ 195  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 196  * Erwin Kalvelagen, GAMS Development Corp.
+ 197  * -----------------------------------------------------
+ 198  * Application: Microsoft Excel
+ 199  * Version:     16.0
+ 200  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Op
+      timal Power Flow (from MainPowerFlow)\Input_Data_OPF2.xls
+ 201  * Sheet:       Circuit_Data(Sheet2)
+ 202  * Range:       $T$4:$W$35
+ 203  * -----------------------------------------------------
+ 204          CPload
+ 205  n4.n4   0
+ 206   
+ 207   
+ 208   
+ 209   
+ 210   
+ 211   
+ 212   
+ 213   
+ 214   
+ 215   
+ 216   
+ 217   
+ 218   
+ 219   
+ 220   
+ 221   
+ 222   
+ 223   
+ 224   
+ 225   
+ 226   
+ 227   
+ 228   
+ 229   
+ 230   
+ 231   
+ 232   
+ 233   
+ 234   
+ 235   
+ 236  * -----------------------------------------------------
+ 237  ;
+ 238   
+ 239  Table CVmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\CVref_OPF.in
+           c
+ 241  * -----------------------------------------------------
+ 242  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 243  * Erwin Kalvelagen, GAMS Development Corp.
+ 244  * -----------------------------------------------------
+ 245  * Application: Microsoft Excel
+ 246  * Version:     16.0
+ 247  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Op
+      timal Power Flow (from MainPowerFlow)\Input_Data_OPF2.xls
+ 248  * Sheet:       Circuit_Data(Sheet2)
+ 249  * Range:       $Y$4:$AB$35
+ 250  * -----------------------------------------------------
+ 251          CVref
+ 252  n3.n3   0
+ 253   
+ 254   
+ 255   
+ 256   
+ 257   
+ 258   
+ 259   
+ 260   
+ 261   
+ 262   
+ 263   
+ 264   
+ 265   
+ 266   
+ 267   
+ 268   
+ 269   
+ 270   
+ 271   
+ 272   
+ 273   
+ 274   
+ 275   
+ 276   
+ 277   
+ 278   
+ 279   
+ 280   
+ 281   
+ 282   
+ 283  * -----------------------------------------------------
+ 284  ;
+ 285   
+ 286  Table DCVmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\DCVref_OPF.i
+           nc
+ 288  * -----------------------------------------------------
+ 289  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 290  * Erwin Kalvelagen, GAMS Development Corp.
+ 291  * -----------------------------------------------------
+ 292  * Application: Microsoft Excel
+ 293  * Version:     16.0
+ 294  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Op
+      timal Power Flow (from MainPowerFlow)\Input_Data_OPF2.xls
+ 295  * Sheet:       Circuit_Data(Sheet2)
+ 296  * Range:       $AD$4:$AG$35
+ 297  * -----------------------------------------------------
+ 298          DCVref
+ 299  n1.n1   0
+ 300   
+ 301   
+ 302   
+ 303   
+ 304   
+ 305   
+ 306   
+ 307   
+ 308   
+ 309   
+ 310   
+ 311   
+ 312   
+ 313   
+ 314   
+ 315   
+ 316   
+ 317   
+ 318   
+ 319   
+ 320   
+ 321   
+ 322   
+ 323   
+ 324   
+ 325   
+ 326   
+ 327   
+ 328   
+ 329   
+ 330  * -----------------------------------------------------
+ 331  ;
+ 332   
+ 333  Table DCGmap(i,j,*)
+INCLUDE    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\G_Droop_OPF.
+           inc
+ 335  * -----------------------------------------------------
+ 336  * XLS2GMS 2.8      24.5.3 r54322 Released Oct  1, 2015 VS8 x86 32bit/MS Wi
+      ndows
+ 337  * Erwin Kalvelagen, GAMS Development Corp.
+ 338  * -----------------------------------------------------
+ 339  * Application: Microsoft Excel
+ 340  * Version:     16.0
+ 341  * Workbook:    C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Op
+      timal Power Flow (from MainPowerFlow)\Input_Data_OPF2.xls
+ 342  * Sheet:       Circuit_Data(Sheet2)
+ 343  * Range:       $AD$4:$AF$35,$AH$4:$AH$35
+ 344  * -----------------------------------------------------
+ 345          Gdroop
+ 346  n1.n1   0
+ 347   
+ 348   
+ 349   
+ 350   
+ 351   
+ 352   
+ 353   
+ 354   
+ 355   
+ 356   
+ 357   
+ 358   
+ 359   
+ 360   
+ 361   
+ 362   
+ 363   
+ 364   
+ 365   
+ 366   
+ 367   
+ 368   
+ 369   
+ 370   
+ 371   
+ 372   
+ 373   
+ 374   
+ 375   
+ 376   
+ 377  * -----------------------------------------------------
+ 378  ;
+ 379   
+ 380  * ------------------------------------------------------------------------
+      -----
+ 381  * PARAMETER DEFINITION
+ 382   
+ 383  Parameters
+ 384  G          (i,j)
+ 385  CCSref     (i,j)
+ 386  CCScost    (i,j)
+ 387  CCSmax     (i,j)
+ 388  CCSmin     (i,j)
+ 389  CCLoads    (i,j)
+ 390  DCCS       (i,j)
+ 391  CV         (i,j)
+ 392  CP         (i,j)
+ 393  Vref       (i,j)
+ 394  Gdroop     (i,j)
+ 395  ;
+ 396   
+ 397  G        (i,j)  =   Gmap       (i,j,'Gline' ) ;
+ 398  CCSref   (i,j)  =  CCSmap      (i,j,'CCSmap')  ;
+ 399  CCScost  (i,j)  =  CCSmap      (i,j,'CCScost') ;
+ 400  CCSmax   (i,j)  =  CCSmap      (i,j,'CCSmax')  ;
+ 401  CCSmin   (i,j)  =  CCSmap      (i,j,'CCSmin')  ;
+ 402  CCLoads  (i,j)  =  CCLmap      (i,j,'CCLmap')  ;;
+ 403   
+ 404  DCCS    (i,j)   =  DCVmap      (i,j,'DCVref') ;
+ 405  CV      (i,j)   =  CVmap       (i,j,'CVref' ) ;
+ 406  CP      (i,j)   =  CPmap       (i,j,'CPload') ;
+ 407  Vref    (i,j)   =  DCVmap      (i,j,'DCVref') ;
+ 408  Gdroop  (i,j)   =  DCGmap      (i,j,'Gdroop') ;
+ 409   
+ 410  Scalar
+ 411  Vnom       /47.5/
+ 412  ;
+ 413   
+ 414   
+ 415  * ------------------------------------------------------------------------
+      -----
+ 416  * DYNAMIC SET OF INDICES
+ 417   
+ 418  ij    (i,j)    $[G(i,j)]       = yes;
+ 419  CCs   (i,j)    $[CCSref(i,j)]  = yes;
+ 420  CCl   (i,j)    $[CCLoads(i,j)] = yes;
+ 421   
+ 422  idccs (i,j)    $[DCCS(i,j)]    = yes;
+ 423  icv   (i,j)    $[CV(i,j)]      = yes;
+ 424  icp   (i,j)    $[CP(i,j)]      = yes;
+ 425   
+ 426  * ------------------------------------------------------------------------
+      -----
+ 427  * VARIABLE DEFINITION
+ 428   
+ 429  Variables
+ 430  Ibranch   (i,j)         'Branch Current'
+ 431  In        (i)           'Nodal Current'
+ 432  V         (i)           'Nodal Voltage'
+ 433  Incv      (i,j)         'In for constant voltage'
+ 434  CCSources (i,j)         'Constant Current Source'
+ 435  cost
+ 436   
+ 437  * ------------------------------------------------------------------------
+      -----
+ 438  * SOLVER
+ 439  *dummy            'dummy variable';
+ 440   
+ 441   
+ 442  * ------------------------------------------------------------------------
+      -----
+ 443  * POWER FLOW EQUATIONS
+ 444   
+ 445  Equations
+ 446   
+ 447  AllCurrentSources (i)     'Sum of currents of all sources at node i'
+ 448  BranchCurrent     (i,j)   'Current in branch ij'
+ 449  NodalCurrent      (i)     'Nodal current equation'
+ 450  Costfunction              'Cost function to be minimized'
+ 451   
+ 452  NodalCurrentCV     (i,j)
+ 453  ConstantVoltage    (i,j)
+ 454   
+ 455  ;
+ 456   
+ 457  *-------------------------------
+ 458  * Set Voltage limits and fixed nodal voltages
+ 459  V.lo(i)     =   -200;
+ 460  V.up(i)     =    200;
+ 461  V.fx('n1')  =    0;
+ 462   
+ 463   
+ 464  CCSources.lo   (i,j)  =  CCSmin(i,j);
+ 465  CCSources.up   (i,j)  =  CCSmin(i,j);
+ 466   
+ 467  * ------------------------------------------------------------------------
+      -----
+ 468  * Circuit Equation
+ 469   
+ 470  BranchCurrent     (ij(i,j))   .. Ibranch(i,j)  =e=  (G(i,j)*(V(i)-V(j)));
+ 471  NodalCurrent      (i)         .. In(i)         =e=   sum[j $ij(i,j)   ,Ibr
+      anch(i,j)]-sum[j $ij(j,i), Ibranch(j,i)];
+ 472  AllCurrentSources (i)         .. In(i)         =e=  - sum[j $icv(i,j), Inc
+      v(i,j)]  + sum[j $CCs(i,j)   ,CCSources(i,j)] + sum[j $CCl(i,j)   ,CCLoads
+      (i,j)] + sum[j $icp(i,j), CP(i,j)/Vnom*[1-1/Vnom*(V(i)-V(j)-Vnom)]]  + sum
+      [j $idccs(i,j),(Vref(i,j) - [V(i)-V(j)])*Gdroop(i,j)];
+ 473  ConstantVoltage   (icv(i,j))  .. V(i)-V(j)     =e=  CV(i,j);
+ 474  NodalCurrentCV    (icv(i,k))  .. 0             =e=  sum[j $icv(i,j), Incv(
+      j,i) ]  + sum[l $ij(l,i), Ibranch(l,i)];
+ 475  Costfunction                  ..  cost         =e=  sum[CCs(i,j), CCSource
+      s(i,j)*CCScost(i,j)];
+ 476   
+ 477  *-------------------------------
+ 478   
+ 479  Model PowerFlow /all/ ;
+ 480  Solve PowerFlow minimizing cost using lp;
+ 481   
+ 482  display
+ 483                    G,
+ 484                   ij,
+ 485                  CCs,
+ 486                idccs,
+ 487                  icv,
+ 488                 in.l,
+ 489                  icp,
+ 490                  V.l,
+ 491            Ibranch.l,
+ 492          CCSources.l
+ 493   
+ 494  ;
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/22/15 10:25:01 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\robin\Google Drive\TU Delft\T
+                                          hesis\GAMS\projdir\Optimal Power Flow 
+                                          (from MainPowerFlow)\OPF_3.gms
+     2       30 INCLUDE        1      30  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\indices_OPF.inc
+     3       52 INCLUDE        1      34  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\Resistive_Network
+                                           _OPF.inc
+     4       99 INCLUDE        1      38  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\CCSources_OPF.inc
+     5      146 INCLUDE        1      42  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\CCloads_OPF.inc
+     6      193 INCLUDE        1      46  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\CPload_OPF.inc
+     7      240 INCLUDE        1      50  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\CVref_OPF.inc
+     8      287 INCLUDE        1      54  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\DCVref_OPF.inc
+     9      334 INCLUDE        1      58  .C:\Users\robin\Google Drive\TU Delft\
+                                           Thesis\GAMS\projdir\G_Droop_OPF.inc
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  24.5.3 r54322 WEX-WEI
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/22/15 10:25:01 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE PowerFlow Using LP From line 480
+
+
+---- AllCurrentSources  =E=  Sum of currents of all sources at node i
+
+AllCurrentSources(n1)..  In(n1) - CCSources(n1,n2) =E= 0 ; (LHS = 0)
+     
+AllCurrentSources(n2)..  In(n2) - CCSources(n2,n1) =E= 0 ;
+     
+      (LHS = -0.1, INFES = 0.1 ****)
+     
+AllCurrentSources(n3)..  In(n3) - CCSources(n3,n4) =E= 0 ;
+     
+      (LHS = -0.1, INFES = 0.1 ****)
+     
+AllCurrentSources(n4)..  In(n4) - CCSources(n4,n3) =E= 0 ; (LHS = 0)
+     
+AllCurrentSources(n5)..  In(n5) =E= 0 ; (LHS = 0)
+     
+AllCurrentSources(n6)..  In(n6) =E= 0 ; (LHS = 0)
+     
+AllCurrentSources(n7)..  In(n7) =E= -5 ; (LHS = 0, INFES = 5 ****)
+     
+AllCurrentSources(n8)..  In(n8) =E= 5 ; (LHS = 0, INFES = 5 ****)
+     
+
+---- BranchCurrent  =E=  Current in branch ij
+
+BranchCurrent(n1,n4)..  Ibranch(n1,n4) - V(n1) + V(n4) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n2,n3)..  Ibranch(n2,n3) - V(n2) + V(n3) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n3,n6)..  Ibranch(n3,n6) - V(n3) + V(n6) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n4,n5)..  Ibranch(n4,n5) - V(n4) + V(n5) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n5,n8)..  Ibranch(n5,n8) - V(n5) + V(n8) =E= 0 ; (LHS = 0)
+     
+BranchCurrent(n6,n7)..  Ibranch(n6,n7) - V(n6) + V(n7) =E= 0 ; (LHS = 0)
+     
+
+---- NodalCurrent  =E=  Nodal current equation
+
+NodalCurrent(n1)..  - Ibranch(n1,n4) + In(n1) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n2)..  - Ibranch(n2,n3) + In(n2) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n3)..  Ibranch(n2,n3) - Ibranch(n3,n6) + In(n3) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n4)..  Ibranch(n1,n4) - Ibranch(n4,n5) + In(n4) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n5)..  Ibranch(n4,n5) - Ibranch(n5,n8) + In(n5) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n6)..  Ibranch(n3,n6) - Ibranch(n6,n7) + In(n6) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n7)..  Ibranch(n6,n7) + In(n7) =E= 0 ; (LHS = 0)
+     
+NodalCurrent(n8)..  Ibranch(n5,n8) + In(n8) =E= 0 ; (LHS = 0)
+     
+
+---- Costfunction  =E=  Cost function to be minimized
+
+Costfunction..  - CCSources(n2,n1) - 2*CCSources(n3,n4) + cost =E= 0 ;
+     
+      (LHS = -0.3, INFES = 0.3 ****)
+     
+
+---- NodalCurrentCV  =E=  
+
+                NONE
+
+
+---- ConstantVoltage  =E=  
+
+                NONE
+
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/22/15 10:25:01 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE PowerFlow Using LP From line 480
+
+
+---- Ibranch  Branch Current
+
+Ibranch(n1,n4)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       BranchCurrent(n1,n4)
+       -1       NodalCurrent(n1)
+        1       NodalCurrent(n4)
+
+Ibranch(n2,n3)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       BranchCurrent(n2,n3)
+       -1       NodalCurrent(n2)
+        1       NodalCurrent(n3)
+
+Ibranch(n3,n6)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       BranchCurrent(n3,n6)
+       -1       NodalCurrent(n3)
+        1       NodalCurrent(n6)
+
+REMAINING 3 ENTRIES SKIPPED
+
+---- In  Nodal Current
+
+In(n1)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       AllCurrentSources(n1)
+        1       NodalCurrent(n1)
+
+In(n2)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       AllCurrentSources(n2)
+        1       NodalCurrent(n2)
+
+In(n3)
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       AllCurrentSources(n3)
+        1       NodalCurrent(n3)
+
+REMAINING 5 ENTRIES SKIPPED
+
+---- V  Nodal Voltage
+
+V(n1)
+                (.LO, .L, .UP, .M = 0, 0, 0, 0)
+       -1       BranchCurrent(n1,n4)
+
+V(n2)
+                (.LO, .L, .UP, .M = -200, 0, 200, 0)
+       -1       BranchCurrent(n2,n3)
+
+V(n3)
+                (.LO, .L, .UP, .M = -200, 0, 200, 0)
+        1       BranchCurrent(n2,n3)
+       -1       BranchCurrent(n3,n6)
+
+REMAINING 5 ENTRIES SKIPPED
+
+---- CCSources  Constant Current Source
+
+CCSources(n1,n2)
+                (.LO, .L, .UP, .M = 0, 0, 0, 0)
+       -1       AllCurrentSources(n1)
+
+CCSources(n2,n1)
+                (.LO, .L, .UP, .M = 0.1, 0.1, 0.1, 0)
+       -1       AllCurrentSources(n2)
+       -1       Costfunction
+        0       (OLD LEVEL ****)
+
+CCSources(n3,n4)
+                (.LO, .L, .UP, .M = 0.1, 0.1, 0.1, 0)
+       -1       AllCurrentSources(n3)
+       -2       Costfunction
+        0       (OLD LEVEL ****)
+
+REMAINING ENTRY SKIPPED
+
+---- cost  
+
+cost
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       Costfunction
+
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/22/15 10:25:01 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE PowerFlow Using LP From line 480
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           6     SINGLE EQUATIONS           23
+BLOCKS OF VARIABLES           5     SINGLE VARIABLES           27  2 projected
+NON ZERO ELEMENTS            53
+
+
+GENERATION TIME      =        0.062 SECONDS      4 MB  24.5.3 r54322 WEX-WEI
+
+
+EXECUTION TIME       =        0.062 SECONDS      4 MB  24.5.3 r54322 WEX-WEI
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/22/15 10:25:01 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE PowerFlow Using LP From line 480
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   PowerFlow           OBJECTIVE  cost
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  480
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      4 Infeasible                
+**** OBJECTIVE VALUE                0.3000
+
+ RESOURCE USAGE, LIMIT          0.063      1000.000
+ ITERATION COUNT, LIMIT         7    2000000000
+
+IBM ILOG CPLEX   24.5.3 r54322 Released Oct  1, 2015 WEI x86 64bit/MS Windows 
+Cplex 12.6.2.0
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(3): infeasible
+Cplex Time: 0.00sec (det. 0.01 ticks)
+Rerunning with presolve turned off and solving with LPMETHOD=0
+LP status(3): infeasible
+Cplex Time: 0.05sec (det. 0.03 ticks)
+Model has been proven infeasible.
+
+---- EQU AllCurrentSources  Sum of currents of all sources at node i
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+n1      .         .         .         EPS       
+n2      .         .         .         EPS       
+n3      .         .         .         EPS       
+n4      .         .         .         EPS       
+n5      .         .         .         EPS       
+n6      .         .         .         EPS       
+n7    -5.000    -5.000    -5.000      EPS       
+n8     5.000     5.000     5.000      EPS       
+
+---- EQU BranchCurrent  Current in branch ij
+
+         LOWER     LEVEL     UPPER    MARGINAL
+
+n1.n4      .         .         .         EPS       
+n2.n3      .         .         .         EPS       
+n3.n6      .         .         .         EPS       
+n4.n5      .         .         .         EPS       
+n5.n8      .         .         .         EPS       
+n6.n7      .         .         .         EPS       
+
+---- EQU NodalCurrent  Nodal current equation
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+n1      .         .         .         EPS       
+n2      .       -4.800      .         .    INFES
+n3      .         .         .         EPS       
+n4      .        5.000      .         .    INFES
+n5      .         .         .         EPS       
+n6      .         .         .         EPS       
+n7      .         .         .         EPS       
+n8      .         .         .         EPS       
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- EQU Costfunct~      .         .         .        1.000      
+
+  Costfunction  Cost function to be minimized
+
+---- EQU NodalCurrentCV  
+
+                NONE
+
+
+---- EQU ConstantVoltage  
+
+                NONE
+
+
+---- VAR Ibranch  Branch Current
+
+         LOWER     LEVEL     UPPER    MARGINAL
+
+n1.n4     -INF       .        +INF       .         
+n2.n3     -INF      4.900     +INF       .         
+n3.n6     -INF      5.000     +INF       .         
+n4.n5     -INF     -5.000     +INF       .         
+n5.n8     -INF     -5.000     +INF       .         
+n6.n7     -INF      5.000     +INF       .         
+
+---- VAR In  Nodal Current
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+n1     -INF       .        +INF       .         
+n2     -INF      0.100     +INF       .         
+n3     -INF      0.100     +INF       .         
+n4     -INF       .        +INF       .         
+n5     -INF       .        +INF       .         
+n6     -INF       .        +INF       .         
+n7     -INF     -5.000     +INF       .         
+n8     -INF      5.000     +INF       .         
+
+---- VAR V  Nodal Voltage
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+n1      .         .         .         EPS       
+n2  -200.000  -185.100   200.000      .         
+n3  -200.000  -190.000   200.000      .         
+n4  -200.000      .      200.000      .         
+n5  -200.000     5.000   200.000      .         
+n6  -200.000  -195.000   200.000      .         
+n7  -200.000  -200.000   200.000      EPS       
+n8  -200.000    10.000   200.000      .         
+
+---- VAR CCSources  Constant Current Source
+
+         LOWER     LEVEL     UPPER    MARGINAL
+
+n1.n2      .         .         .         EPS       
+n2.n1     0.100     0.100     0.100     1.000      
+n3.n4     0.100     0.100     0.100     2.000      
+n4.n3      .         .         .         EPS       
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- VAR cost           -INF      0.300     +INF       .         
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             2 INFEASIBLE (INFES)
+                    SUM      9.800
+                    MAX      5.000
+                    MEAN     4.900
+                             0  UNBOUNDED
+GAMS 24.5.3  r54322 Released Oct  1, 2015 WEX-WEI x86 64bit/MS Windows 10/22/15 10:25:01 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+----    483 PARAMETER G  
+
+            n3          n4          n5          n6          n7          n8
+
+n1                   1.000
+n2       1.000
+n3                                           1.000
+n4                               1.000
+n5                                                                   1.000
+n6                                                       1.000
+
+
+----    483 SET ij  lines
+
+            n3          n4          n5          n6          n7          n8
+
+n1                     YES
+n2         YES
+n3                                             YES
+n4                                 YES
+n5                                                                     YES
+n6                                                         YES
+
+
+----    483 SET CCs  current sources
+
+            n1          n2          n3          n4
+
+n1                     YES
+n2         YES
+n3                                             YES
+n4                                 YES
+
+
+----    483 SET idccs  droop controlled sources
+
+                                                      ( EMPTY )
+
+
+----    483 SET icv  constant voltage
+
+                                                      ( EMPTY )
+
+
+----    483 VARIABLE In.L  Nodal Current
+
+n2  0.100,    n3  0.100,    n7 -5.000,    n8  5.000
+
+
+----    483 SET icp  constant power
+
+                                                      ( EMPTY )
+
+
+----    483 VARIABLE V.L  Nodal Voltage
+
+n2 -185.100,    n3 -190.000,    n5    5.000,    n6 -195.000,    n7 -200.000
+n8   10.000
+
+
+----    483 VARIABLE Ibranch.L  Branch Current
+
+            n3          n5          n6          n7          n8
+
+n2       4.900
+n3                               5.000
+n4                  -5.000
+n5                                                      -5.000
+n6                                           5.000
+
+
+----    483 VARIABLE CCSources.L  Constant Current Source
+
+            n1          n4
+
+n2       0.100
+n3                   0.100
+
+
+
+EXECUTION TIME       =        0.000 SECONDS      3 MB  24.5.3 r54322 WEX-WEI
+
+
+USER: Course License, Introduction to Decision Suppo G150929:0359AO-GEN
+      TU Delft, Faculteit Elektrotechniek, Wiskunde en InformatiDC12029
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\Optimal Powe
+           r Flow (from MainPowerFlow)\OPF_3.gms
+Output     C:\Users\robin\Google Drive\TU Delft\Thesis\GAMS\projdir\OPF_3.lst
