@@ -118,9 +118,11 @@ BranchCurrent      (i,j)   'Current in branch ij'
 NodalCurrent       (i)     'Nodal current equation'
 NodalCurrentCV     (i,j)
 ConstantVoltage    (i,j)
-Costfunction               'Cost function to be minimized'
 *Equality           (i,j)
 Equality2          (i,j)
+
+Costfunction               'Cost function to be minimized'
+
 ;
 
 * -----------------------------------------------------------------------------
@@ -128,54 +130,62 @@ Equality2          (i,j)
 
 *V.lo(i)           =   -200;
 *V.up(i)           =    200;
-V.fx('n1')        =    0;
+*V.fx('n1')        =    0;
 
 V.fx('n1')     =   0;
-V.lo('n2')     =  50;
-V.lo('n3')     =  50;
-V.lo('n5')     =  50;
 
 V.up('n2')     =  500;
 V.up('n3')     =  500;
+V.up('n4')     =  500;
 V.up('n5')     =  500;
+V.up('n6')     =  500;
+V.up('n7')     =  500;
 
-V.lo('n4')     =  -10;
+* Voltage Limits for upper nodes
+V.lo('n2')     =  50;
+V.lo('n3')     =  50;
+V.lo('n4')     =  50;
+V.lo('n7')     =  50;
+
+*Voltage Limits for lower nodes
+V.lo('n5')     =  -10;
 V.lo('n6')     =  -10;
 
-V.up('n4')     =  500;
-V.up('n6')     =  500;
+
 
 *CCSources.lo (i,j) = CCSmin (i,j);
 *CCSources.up (i,j) = CCSmax (i,j);
 
 CCSources.lo ('n2','n1') = 1;
-CCSources.up ('n2','n1') = 5;
-CCSources.lo ('n3','n4') = 2;
-CCSources.up ('n3','n4') = 3;
+CCSources.up ('n2','n1') = 7;
+CCSources.lo ('n4','n5') = 1;
+CCSources.up ('n4','n5') = 5;
 
 * -----------------------------------------------------------------------------
 * Circuit Equation
 
-BranchCurrent     (ij(i,j))   .. Ibranch(i,j) =e= (G(i,j)*(V(i)-V(j)));
-*NodalCurrent      (i)         .. In(i)        =e= sum[j $ij(i,j)   ,Ibranch(i,j)]-sum[j $ij(j,i), Ibranch(j,i)];
-NodalCurrent      (i)         .. In(i)        =e= sum[j $ij(i,j)   ,Ibranch(i,j)];
+BranchCurrent     (ij(i,j))   .. Ibranch(i,j)  =e=  (G(i,j)*(V(i)-V(j)));
+*NodalCurrent      (i)         .. In(i)        =e=  sum[j $ij(i,j)   ,Ibranch(i,j)]-sum[j $ij(j,i), Ibranch(j,i)];
+NodalCurrent      (i)         .. In(i)         =e=  sum[j $ij(i,j)   ,Ibranch(i,j)];
 AllCurrentSources (i)         .. In(i)         =e=  - sum[j $icv(i,j), Incv(i,j)]  + sum[j $CCs(i,j)   ,CCSources(i,j)] + sum[j $CCl(i,j)   ,CCLoads(i,j)] + sum[j $icp(i,j), CP(i,j)/Vnom*[1-1/Vnom*(V(i)-V(j)-Vnom)]]  + sum[j $idccs(i,j),(Vref(i,j) - [V(i)-V(j)])*Gdroop(i,j)];
-ConstantVoltage   (icv(i,j))  .. V(i)-V(j)    =e=  CV(i,j);
-NodalCurrentCV    (icv(i,k))  .. 0            =e=  sum[j $icv(i,j), Incv(j,i) ]  + sum[l $ij(l,i), Ibranch(l,i)];
+ConstantVoltage   (icv(i,j))  .. V(i)-V(j)     =e=  CV(i,j);
+NodalCurrentCV    (icv(i,k))  .. 0             =e=  sum[j $icv(i,j), Incv(j,i) ]  + sum[l $ij(l,i), Ibranch(l,i)];
 
 *Equality          (ij(i,j))   .. Ibranch(i,j)   =e= -Ibranch(j,i) ;
 Equality2         (CCs(i,j))  .. CCSources(i,j) =e= -CCSources(j,i);
 
+
 * -----------------------------------------------------------------------------
 * OPTIMAL POWER FLOW EQUATIONS
-
-Costfunction                  ..  cost         =e=  sum[CCs(i,j), CCSources(i,j)*CCScost(i,j)];
+*Costfunction                  ..  cost         =e=  sum[CCs(i,j), CCSources(i,j)*CCScost(i,j)];
+Costfunction                  ..  cost         =e=  sum[CCs(i,j), CCSources(i,j)*CCScost(i,j)*(V(i)-V(j))];
 
 *-------------------------------
 
 Model PowerFlow /all/ ;
 
-Solve PowerFlow minimizing cost using lp;
+*Solve PowerFlow minimizing cost using lp;
+Solve PowerFlow minimizing cost using qcp;
 
 display
                   G,
