@@ -32,6 +32,7 @@ Table Gmap(i,j,*)
 $include Resistive_Network_OPF.inc
 ;
 
+
 Table CCSmap(i,j,*)
 $include CCsources_OPF.inc
 ;
@@ -61,6 +62,7 @@ $include G_Droop_OPF.inc
 
 Parameters
 G          (i,j)
+LLimit     (i,j)
 CCSref     (i,j)
 CCScost    (i,j)
 CCSmax     (i,j)
@@ -74,17 +76,18 @@ Gdroop     (i,j)
 ;
 
 
-G        (i,j)  =  Gmap   (i,j,'Gline' )  ;
-CCSref   (i,j)  =  CCSmap (i,j,'CCSmap')  ;
-CCScost  (i,j)  =  CCSmap (i,j,'CCScost') ;
-CCSmax   (i,j)  =  CCSmap (i,j,'CCSmax')  ;
-CCSmin   (i,j)  =  CCSmap (i,j,'CCSmin')  ;
-CCLoads  (i,j)  =  CCLmap (i,j,'CCLmap')  ;
-DCCS     (i,j)  =  DCVmap (i,j,'DCVref')  ;
-CV       (i,j)  =  CVmap  (i,j,'CVref' )  ;
-CP       (i,j)  =  DCVmap (i,j,'DCVref')  ;
-Vref     (i,j)   =  DCVmap(i,j,'DCVref')  ;
-Gdroop   (i,j)  =  DCGmap (i,j,'Gdroop')  ;
+G         (i,j)  =  Gmap   (i,j,'Gline' )    ;
+LLimit    (i,j)  =  Gmap   (i,j,'LineLimit') ;
+CCSref    (i,j)  =  CCSmap (i,j,'CCSmap')    ;
+CCScost   (i,j)  =  CCSmap (i,j,'CCScost')   ;
+CCSmax    (i,j)  =  CCSmap (i,j,'CCSmax')    ;
+CCSmin    (i,j)  =  CCSmap (i,j,'CCSmin')    ;
+CCLoads   (i,j)  =  CCLmap (i,j,'CCLmap')    ;
+DCCS      (i,j)  =  DCVmap (i,j,'DCVref')    ;
+CV        (i,j)  =  CVmap  (i,j,'CVref' )    ;
+CP        (i,j)  =  DCVmap (i,j,'DCVref')    ;
+Vref      (i,j)   = DCVmap(i,j,'DCVref')     ;
+Gdroop    (i,j)  =  DCGmap (i,j,'Gdroop')    ;
 
 Scalar
 Vnom       /47.5/
@@ -119,7 +122,7 @@ NodalCurrent       (i)     'Nodal current equation'
 NodalCurrentCV     (i,j)
 ConstantVoltage    (i,j)
 *Equality           (i,j)
-Equality2          (i,j)
+Equality           (i,j)
 
 Costfunction               'Cost function to be minimized'
 
@@ -147,19 +150,26 @@ V.lo('n3')     =  50;
 V.lo('n4')     =  50;
 V.lo('n7')     =  50;
 
-*Voltage Limits for lower nodes
+* Voltage Limits for lower nodes
 V.lo('n5')     =  -10;
 V.lo('n6')     =  -10;
 
 
+* -----------------------------------------------------------------------------
+* Set Voltage limits and fixed nodal voltages
 
-*CCSources.lo (i,j) = CCSmin (i,j);
-*CCSources.up (i,j) = CCSmax (i,j);
+CCSources.lo (i,j) = CCSmin (i,j);
+CCSources.up (i,j) = CCSmax (i,j);
 
-CCSources.lo ('n2','n1') = 1;
-CCSources.up ('n2','n1') = 7;
-CCSources.lo ('n4','n5') = 1;
-CCSources.up ('n4','n5') = 5;
+*CCSources.lo ('n2','n1') = 1;
+*CCSources.up ('n2','n1') = 7;
+*CCSources.lo ('n4','n5') = 1;
+*CCSources.up ('n4','n5') = 5;
+
+* -----------------------------------------------------------------------------
+* Set Branch/Line limits
+
+Ibranch.up (i,j) = LLimit(i,j);
 
 * -----------------------------------------------------------------------------
 * Circuit Equation
@@ -172,7 +182,7 @@ ConstantVoltage   (icv(i,j))  .. V(i)-V(j)     =e=  CV(i,j);
 NodalCurrentCV    (icv(i,k))  .. 0             =e=  sum[j $icv(i,j), Incv(j,i) ]  + sum[l $ij(l,i), Ibranch(l,i)];
 
 *Equality          (ij(i,j))   .. Ibranch(i,j)   =e= -Ibranch(j,i) ;
-Equality2         (CCs(i,j))  .. CCSources(i,j) =e= -CCSources(j,i);
+Equality          (CCs(i,j))  .. CCSources(i,j) =e= -CCSources(j,i);
 
 
 * -----------------------------------------------------------------------------
@@ -196,6 +206,8 @@ display
                 V.l,
           Ibranch.l,
         CCSources.l,
-             cost.l
+             cost.l,
+             CCSmax,
+             CCSmin
 
 ;
